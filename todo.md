@@ -423,3 +423,4 @@
 - [ ] Test leaderboard access after login
 - [ ] Test profile settings after login
 - [x] Add favicon to website
+- [ ] Fix Drizzle ORM to work with Railway MySQL (registration failing)
