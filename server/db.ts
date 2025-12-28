@@ -1,14 +1,33 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import mysql from "mysql2/promise";
 import { InsertUser, users, passwordResetTokens } from "../drizzle/schema";
 
 let _db: ReturnType<typeof drizzle> | null = null;
+let _pool: mysql.Pool | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      const dbUrl = process.env.DATABASE_URL;
+      
+      // For Railway MySQL connections, create pool with SSL
+      if (dbUrl.includes('railway') || dbUrl.includes('rlwy.net')) {
+        if (!_pool) {
+          _pool = mysql.createPool({
+            uri: dbUrl,
+            ssl: { rejectUnauthorized: false },
+            waitForConnections: true,
+            connectionLimit: 10,
+            queueLimit: 0
+          });
+        }
+        _db = drizzle(_pool as any);
+      } else {
+        // For other connections (like Manus internal DB)
+        _db = drizzle(dbUrl);
+      }
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
