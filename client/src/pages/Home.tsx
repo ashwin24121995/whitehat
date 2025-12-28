@@ -87,15 +87,15 @@ export default function Home() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4">
                 <div className="flex items-center gap-2 bg-white p-3 rounded-lg shadow-sm border border-gray-100">
                   <CheckCircle2 className="h-5 w-5 text-teal-600 flex-shrink-0" />
-                  <span className="text-sm font-semibold text-slate-700">No Fees</span>
+                  <span className="text-sm font-semibold text-slate-700">{t.hero.noFees}</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white p-3 rounded-lg shadow-sm border border-gray-100">
                   <CheckCircle2 className="h-5 w-5 text-teal-600 flex-shrink-0" />
-                  <span className="text-sm font-semibold text-slate-700">No Charges</span>
+                  <span className="text-sm font-semibold text-slate-700">{t.hero.noCharges}</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white p-3 rounded-lg shadow-sm border border-gray-100">
                   <CheckCircle2 className="h-5 w-5 text-teal-600 flex-shrink-0" />
-                  <span className="text-sm font-semibold text-slate-700">Educational</span>
+                  <span className="text-sm font-semibold text-slate-700">{t.hero.educational}</span>
                 </div>
               </div>
             </div>
@@ -169,7 +169,7 @@ export default function Home() {
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                 <span className="font-bold text-sm uppercase">Live Now</span>
               </div>
-              <h2 className="text-2xl font-bold text-slate-900">Live Matches</h2>
+              <h2 className="text-2xl font-bold text-slate-900">{t.matches.liveMatches}</h2>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -217,7 +217,7 @@ export default function Home() {
                     
                     <Link href={`/create-team/${match.id}`}>
                       <Button className="w-full btn-brand">
-                        Create Team
+                        {t.matches.createTeam}
                       </Button>
                     </Link>
                   </CardContent>
@@ -351,23 +351,23 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
             <div>
               <Users className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">Join Us</div>
-              <div className="text-sm font-medium opacity-90">Be Part of Community</div>
+              <div className="text-3xl font-black mb-1">{t.joinUs.title}</div>
+              <div className="text-sm font-medium opacity-90">{t.joinUs.subtitle}</div>
             </div>
             <div>
               <Trophy className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">Daily</div>
-              <div className="text-sm font-medium opacity-90">New Contests</div>
+              <div className="text-3xl font-black mb-1">{t.joinUs.daily}</div>
+              <div className="text-sm font-medium opacity-90">{t.joinUs.dailySubtitle}</div>
             </div>
             <div>
               <TrendingUp className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">Live</div>
-              <div className="text-sm font-medium opacity-90">Match Updates</div>
+              <div className="text-3xl font-black mb-1">{t.joinUs.live}</div>
+              <div className="text-sm font-medium opacity-90">{t.joinUs.liveSubtitle}</div>
             </div>
             <div>
               <Shield className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">100%</div>
-              <div className="text-sm font-medium opacity-90">Safe & Secure</div>
+              <div className="text-3xl font-black mb-1">{t.joinUs.secure}</div>
+              <div className="text-sm font-medium opacity-90">{t.joinUs.secureSubtitle}</div>
             </div>
           </div>
         </div>
@@ -378,10 +378,10 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
-              Why Choose WHITEHAT Fantasy Cricket?
+              {t.features.title}
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Experience the thrill of fantasy cricket without any financial risk. Learn, compete, and enjoy!
+              {t.features.subtitle}
             </p>
           </div>
 
@@ -392,9 +392,9 @@ export default function Home() {
                 <div className="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
                   <DollarSign className="h-7 w-7 text-teal-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">100% Free to Play</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.freeToPlay.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  No registration fees, no entry charges, no hidden costs. Play as much as you want without spending a single rupee.
+                  {t.features.freeToPlay.description}
                 </p>
               </CardContent>
             </Card>
@@ -405,9 +405,9 @@ export default function Home() {
                 <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                   <BookOpen className="h-7 w-7 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Learn & Improve</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.learnImprove.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Perfect platform for beginners to learn fantasy cricket strategies without financial pressure. Build your skills risk-free.
+                  {t.features.learnImprove.description}
                 </p>
               </CardContent>
             </Card>
@@ -418,9 +418,9 @@ export default function Home() {
                 <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
                   <TrendingUp className="h-7 w-7 text-purple-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Real-Time Updates</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.realTimeUpdates.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Get live match scores, player statistics, and fantasy points updated in real-time. Stay connected to every ball.
+                  {t.features.realTimeUpdates.description}
                 </p>
               </CardContent>
             </Card>
@@ -431,9 +431,9 @@ export default function Home() {
                 <div className="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
                   <Trophy className="h-7 w-7 text-orange-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Compete & Win Glory</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.compete.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Climb the leaderboards, compete with thousands of players, and earn bragging rights. No money, just pure competition.
+                  {t.features.compete.description}
                 </p>
               </CardContent>
             </Card>
@@ -444,9 +444,9 @@ export default function Home() {
                 <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                   <Shield className="h-7 w-7 text-green-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Safe & Secure</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.safeSec.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Your data is protected with industry-standard security. No payment information required. Play with complete peace of mind.
+                  {t.features.safeSec.description}
                 </p>
               </CardContent>
             </Card>
@@ -457,9 +457,9 @@ export default function Home() {
                 <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
                   <Smile className="h-7 w-7 text-pink-600" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Pure Entertainment</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.entertainment.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
-                  Enjoy fantasy cricket for what it is—pure fun and entertainment. No stress about losing money, just enjoy the game.
+                  {t.features.entertainment.description}
                 </p>
               </CardContent>
             </Card>
@@ -472,10 +472,10 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
-              How It Works
+              {t.howItWorks.title}
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Get started in just 3 simple steps. It's easy, fun, and completely free!
+              {t.howItWorks.subtitle}
             </p>
           </div>
 
@@ -486,9 +486,9 @@ export default function Home() {
                 <div className="w-16 h-16 bg-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto">
                   1
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">Register Free</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">{t.howItWorks.step1Title}</h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Create your free account in seconds. No payment information needed. Just your email and you're ready to go!
+                  {t.howItWorks.step1Description}
                 </p>
               </div>
               {/* Arrow for desktop */}
@@ -503,9 +503,9 @@ export default function Home() {
                 <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto">
                   2
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">Build Your Team</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">{t.howItWorks.step2Title}</h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Select 11 players from upcoming matches. Choose batsmen, bowlers, all-rounders, and a wicket-keeper strategically.
+                  {t.howItWorks.step2Description}
                 </p>
               </div>
               {/* Arrow for desktop */}
@@ -520,9 +520,9 @@ export default function Home() {
                 <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto">
                   3
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">Compete & Climb</h3>
+                <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">{t.howItWorks.step3Title}</h3>
                 <p className="text-slate-600 text-center leading-relaxed">
-                  Watch your players perform live. Earn fantasy points and climb the leaderboard. Compete with other players!
+                  {t.howItWorks.step3Description}
                 </p>
               </div>
             </div>
@@ -544,12 +544,15 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-12">
             <div className="inline-block bg-teal-100 text-teal-600 px-4 py-2 rounded-full font-semibold text-sm mb-4">
-              Our Mission
+              {t.footer.missionLabel}
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
-              Why We're 100% Free
+              {t.whyFree.title}
             </h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              {t.whyFree.subtitle}
+            </p>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto d-none">
               We believe fantasy cricket should be accessible to everyone. Our investors share our vision of fantasy education without financial barriers.
             </p>
           </div>
@@ -563,9 +566,9 @@ export default function Home() {
                     <Heart className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">Education First</h3>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{t.whyFree.educationTitle}</h3>
                     <p className="text-slate-600 leading-relaxed">
-                      We're backed by investors who believe in fantasy education. Our goal is to teach strategy and decision-making, not to profit from players.
+                      {t.whyFree.educationDescription}
                     </p>
                   </div>
                 </div>
@@ -580,9 +583,9 @@ export default function Home() {
                     <Lock className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">No Financial Pressure</h3>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{t.whyFree.noPressureTitle}</h3>
                     <p className="text-slate-600 leading-relaxed">
-                      Play without the stress of losing money. Make bold decisions, experiment with strategies, and learn from mistakes risk-free.
+                      {t.whyFree.noPressureDescription}
                     </p>
                   </div>
                 </div>
@@ -614,9 +617,9 @@ export default function Home() {
                     <Award className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">Skill Development</h3>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{t.whyFree.skillTitle}</h3>
                     <p className="text-slate-600 leading-relaxed">
-                      Build analytical skills, learn player statistics, understand match conditions, and develop strategic thinking—all for free.
+                      {t.whyFree.skillDescription}
                     </p>
                   </div>
                 </div>
@@ -631,9 +634,12 @@ export default function Home() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-5xl font-black mb-4">
-              Ready to Start Your Fantasy Cricket Journey?
+              {t.cta.readyTitle}
             </h2>
             <p className="text-xl md:text-2xl mb-8 opacity-95">
+              {t.cta.readySubtitle}
+            </p>
+            <p className="text-xl md:text-2xl mb-8 opacity-95 d-none">
               Start enjoying free fantasy cricket today. No payment, no risk, just pure fun!
             </p>
             
@@ -655,15 +661,15 @@ export default function Home() {
             <div className="mt-10 flex items-center justify-center gap-8 text-sm opacity-90">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5" />
-                <span>No Credit Card</span>
+                <span>{t.cta.noCreditCard}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5" />
-                <span>No Hidden Fees</span>
+                <span>{t.cta.noHiddenFees}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5" />
-                <span>100% Free Forever</span>
+                <span>{t.cta.freeForever}</span>
               </div>
             </div>
           </div>

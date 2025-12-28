@@ -37,7 +37,20 @@
     "howItWorks": "How It Works",
     "free": "Free",
     "cost": "Cost",
-    "fun": "Fun"
+    "fun": "Fun",
+    "noFees": "No Fees",
+    "noCharges": "No Charges",
+    "educational": "Educational"
+  },
+  "joinUs": {
+    "title": "Join Us",
+    "subtitle": "Be Part of Community",
+    "daily": "Daily",
+    "dailySubtitle": "New Contests",
+    "live": "Live",
+    "liveSubtitle": "Match Updates",
+    "secure": "100%",
+    "secureSubtitle": "Safe & Secure"
   },
   "features": {
     "title": "Why Choose WHITEHAT Fantasy Cricket?",
@@ -99,6 +112,38 @@
     "ageRestriction": "You must be 18+ to register",
     "stateRestriction": "Service not available in your state"
   },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Get started in just 3 simple steps. It's easy, fun, and completely free!",
+    "step1Title": "Register Free",
+    "step1Description": "Create your free account in seconds. No payment information needed. Just your email and you're ready to go!",
+    "step2Title": "Build Your Team",
+    "step2Description": "Select 11 players from upcoming matches. Choose batsmen, bowlers, all-rounders, and a wicket-keeper strategically.",
+    "step3Title": "Compete & Climb",
+    "step3Description": "Watch your players perform live. Earn fantasy points and climb the leaderboard. Compete with other players!"
+  },
+  "whyFree": {
+    "title": "Why We're 100% Free",
+    "subtitle": "We believe fantasy cricket should be accessible to everyone. Our investors share our vision of fantasy education without financial barriers.",
+    "educationTitle": "Education First",
+    "educationDescription": "We're backed by investors who believe in fantasy education. Our goal is to teach strategy and decision-making, not to profit from players.",
+    "noPressureTitle": "No Financial Pressure",
+    "noPressureDescription": "Play without the stress of losing money. Make bold decisions, experiment with strategies, and learn from mistakes risk-free.",
+    "entertainmentTitle": "Pure Entertainment",
+    "entertainmentDescription": "Fantasy cricket is meant to be fun! We keep it that way by removing the financial element and focusing on pure enjoyment.",
+    "skillTitle": "Skill Development",
+    "skillDescription": "Build analytical skills, learn player statistics, understand match conditions, and develop strategic thinking—all for free."
+  },
+  "cta": {
+    "readyTitle": "Ready to Start Your Fantasy Cricket Journey?",
+    "readySubtitle": "Start enjoying free fantasy cricket today. No payment, no risk, just pure fun!",
+    "noCreditCard": "No Credit Card",
+    "noHiddenFees": "No Hidden Fees",
+    "freeForever": "100% Free Forever",
+    "startNow": "Start Playing Now",
+    "registerFree": "Register Now - It's Free!",
+    "learnHow": "Learn How to Play"
+  },
   "footer": {
     "about": "About",
     "legal": "Legal",
@@ -109,6 +154,7 @@
     "responsibleGaming": "Responsible Gaming",
     "contactUs": "Contact Us",
     "copyright": "© 2024 WHITEHAT INFOTECH. All rights reserved.",
-    "disclaimer": "This is a free-to-play fantasy cricket platform. No real money is involved."
+    "disclaimer": "This is a free-to-play fantasy cricket platform. No real money is involved.",
+    "missionLabel": "Our Mission"
   }
 }
