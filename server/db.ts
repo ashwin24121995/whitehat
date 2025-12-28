@@ -10,13 +10,17 @@ export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
       const dbUrl = process.env.DATABASE_URL;
+      console.log("[Database] Initializing connection...");
+      console.log("[Database] URL contains rlwy.net:", dbUrl.includes('rlwy.net'));
       
       // For Railway MySQL or any rlwy.net connection, use connection pool with SSL
       if (dbUrl.includes('rlwy.net') || dbUrl.includes('railway')) {
+        console.log("[Database] Using Railway MySQL connection pool with SSL");
+        
         // Parse the connection string
         const url = new URL(dbUrl.replace('mysql://', 'http://'));
         
-        const connection = mysql.createPool({
+        const poolConfig = {
           host: url.hostname,
           port: parseInt(url.port) || 3306,
           user: url.username,
@@ -27,16 +31,41 @@ export async function getDb() {
           },
           waitForConnections: true,
           connectionLimit: 10,
-          queueLimit: 0
+          queueLimit: 0,
+          enableKeepAlive: true,
+          keepAliveInitialDelay: 0
+        };
+        
+        console.log("[Database] Pool config:", {
+          host: poolConfig.host,
+          port: poolConfig.port,
+          user: poolConfig.user,
+          database: poolConfig.database,
+          ssl: 'enabled'
         });
         
+        const connection = mysql.createPool(poolConfig);
+        
+        // Test the connection
+        try {
+          const testConn = await connection.getConnection();
+          console.log("[Database] Connection test successful!");
+          testConn.release();
+        } catch (testError) {
+          console.error("[Database] Connection test failed:", testError);
+          throw testError;
+        }
+        
         _db = drizzle(connection);
+        console.log("[Database] Drizzle instance created successfully");
       } else {
+        console.log("[Database] Using direct connection string");
         // For other connections (like Manus internal DB), use connection string directly
         _db = drizzle(dbUrl);
       }
     } catch (error) {
       console.error("[Database] Failed to connect:", error);
+      console.error("[Database] Error details:", error instanceof Error ? error.message : String(error));
       _db = null;
     }
   }
