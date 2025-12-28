@@ -399,3 +399,9 @@
 - [ ] Add breadcrumb navigation to all pages (future enhancement)
 - [ ] Add "Back to Top" button on long pages (future enhancement)
 - [ ] Ensure all pages are fully translated (English, Hindi, Marathi)
+
+## Live Website Bug Fixes (Testing Session)
+- [x] Fix hero background image not displaying on production (reduced overlay opacity)
+- [ ] Fix team logos not displaying in live match cards
+- [ ] Verify all images are properly deployed to production
+- [ ] Test after GitHub push and deployment
