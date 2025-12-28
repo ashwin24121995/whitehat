@@ -245,3 +245,11 @@
 - [x] Increase logo size in header for better visibility
 - [x] Test design on different screen sizes
 - [x] Ensure text remains readable over background image
+
+## Team Logos and Loading Skeletons (User Request)
+- [x] Add team logos to Live Match cards using Cricket API teamInfo data
+- [x] Add team logos to Upcoming Match cards
+- [x] Create loading skeleton component for match cards
+- [x] Implement skeleton loading state while fetching matches
+- [x] Ensure logos display properly with fallback for missing images
+- [x] Test loading states and visual appeal

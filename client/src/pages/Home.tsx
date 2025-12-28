@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Zap, Target, CheckCircle2, Trophy, Users, TrendingUp, Shield, 
   Calendar, Clock, Heart, Sparkles, Award, Play, ArrowRight,
@@ -129,7 +130,36 @@ export default function Home() {
       </section>
 
       {/* LIVE MATCHES SECTION */}
-      {liveMatches.length > 0 && (
+      {matchesLoading ? (
+        <section className="py-12 bg-red-50">
+          <div className="container">
+            <div className="flex items-center gap-3 mb-6">
+              <Skeleton className="h-9 w-28 rounded-full" />
+              <Skeleton className="h-8 w-40" />
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="border-2 border-red-200">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <Skeleton className="h-4 w-12" />
+                      <Skeleton className="h-4 w-16" />
+                    </div>
+                    <Skeleton className="h-6 w-full mb-2" />
+                    <Skeleton className="h-4 w-3/4 mb-4" />
+                    <div className="flex items-center gap-3 mb-3">
+                      <Skeleton className="h-10 w-10 rounded-full" />
+                      <Skeleton className="h-4 w-6" />
+                      <Skeleton className="h-10 w-10 rounded-full" />
+                    </div>
+                    <Skeleton className="h-10 w-full rounded-md" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : liveMatches.length > 0 ? (
         <section className="py-12 bg-red-50">
           <div className="container">
             <div className="flex items-center gap-3 mb-6">
@@ -153,6 +183,36 @@ export default function Home() {
                     </div>
                     <h3 className="font-bold text-slate-900 mb-2">{match.name}</h3>
                     <p className="text-sm text-slate-600 mb-3">{match.venue}</p>
+                    
+                    {/* Team Logos */}
+                    {match.teamInfo && match.teamInfo.length >= 2 && (
+                      <div className="flex items-center justify-center gap-3 mb-4 py-2">
+                        <div className="flex flex-col items-center gap-1">
+                          <img 
+                            src={match.teamInfo[0].img} 
+                            alt={match.teamInfo[0].shortname}
+                            className="h-12 w-12 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder-team.png';
+                            }}
+                          />
+                          <span className="text-xs font-semibold text-slate-700">{match.teamInfo[0].shortname}</span>
+                        </div>
+                        <span className="text-lg font-bold text-slate-400">VS</span>
+                        <div className="flex flex-col items-center gap-1">
+                          <img 
+                            src={match.teamInfo[1].img} 
+                            alt={match.teamInfo[1].shortname}
+                            className="h-12 w-12 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder-team.png';
+                            }}
+                          />
+                          <span className="text-xs font-semibold text-slate-700">{match.teamInfo[1].shortname}</span>
+                        </div>
+                      </div>
+                    )}
+                    
                     <Link href={`/create-team/${match.id}`}>
                       <Button className="w-full btn-brand">
                         Create Team
@@ -164,10 +224,40 @@ export default function Home() {
             </div>
           </div>
         </section>
-      )}
+      ) : null}
 
       {/* UPCOMING MATCHES SECTION */}
-      {upcomingMatches.length > 0 && (
+      {matchesLoading ? (
+        <section className="py-16">
+          <div className="container">
+            <div className="text-center mb-10">
+              <Skeleton className="h-10 w-64 mx-auto mb-3" />
+              <Skeleton className="h-6 w-96 mx-auto" />
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <Card key={i} className="border border-gray-200">
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <Skeleton className="h-5 w-12" />
+                      <Skeleton className="h-4 w-20" />
+                    </div>
+                    <Skeleton className="h-6 w-full mb-2" />
+                    <Skeleton className="h-5 w-24 mb-4" />
+                    <Skeleton className="h-4 w-3/4 mb-4" />
+                    <div className="flex items-center justify-center gap-3 mb-4 py-2">
+                      <Skeleton className="h-12 w-12 rounded-full" />
+                      <Skeleton className="h-4 w-8" />
+                      <Skeleton className="h-12 w-12 rounded-full" />
+                    </div>
+                    <Skeleton className="h-10 w-full rounded-md" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : upcomingMatches.length > 0 ? (
         <section className="py-16">
           <div className="container">
             <div className="text-center mb-10">
@@ -179,46 +269,68 @@ export default function Home() {
               </p>
             </div>
             
-            {matchesLoading ? (
-              <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-teal-600 border-t-transparent"></div>
-                <p className="mt-4 text-slate-600">Loading matches...</p>
-              </div>
-            ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {upcomingMatches.map((match) => (
-                  <Card key={match.id} className="hover:shadow-xl transition-all hover:-translate-y-1 border border-gray-200">
-                    <CardContent className="p-5">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs font-semibold text-teal-600 uppercase bg-teal-50 px-2 py-1 rounded">
-                          {match.matchType}
-                        </span>
-                        <div className="flex items-center gap-1 text-xs text-slate-500">
-                          <Calendar className="h-3 w-3" />
-                          <span>{new Date(match.dateTimeGMT).toLocaleDateString('en-IN')}</span>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {upcomingMatches.map((match) => (
+                <Card key={match.id} className="hover:shadow-xl transition-all hover:-translate-y-1 border border-gray-200">
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-teal-600 uppercase bg-teal-50 px-2 py-1 rounded">
+                        {match.matchType}
+                      </span>
+                      <div className="flex items-center gap-1 text-xs text-slate-500">
+                        <Calendar className="h-3 w-3" />
+                        <span>{new Date(match.dateTimeGMT).toLocaleDateString('en-IN')}</span>
+                      </div>
+                    </div>
+                    
+                    <h3 className="font-bold text-slate-900 mb-2 line-clamp-2">{match.name}</h3>
+                    
+                    <div className="flex items-center gap-1 text-sm text-slate-600 mb-2">
+                      <Clock className="h-4 w-4" />
+                      <span>{new Date(match.dateTimeGMT).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                    
+                    <p className="text-sm text-slate-600 mb-4 line-clamp-1">{match.venue}</p>
+                    
+                    {/* Team Logos */}
+                    {match.teamInfo && match.teamInfo.length >= 2 && (
+                      <div className="flex items-center justify-center gap-3 mb-4 py-2">
+                        <div className="flex flex-col items-center gap-1">
+                          <img 
+                            src={match.teamInfo[0].img} 
+                            alt={match.teamInfo[0].shortname}
+                            className="h-12 w-12 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder-team.png';
+                            }}
+                          />
+                          <span className="text-xs font-semibold text-slate-700">{match.teamInfo[0].shortname}</span>
+                        </div>
+                        <span className="text-lg font-bold text-slate-400">VS</span>
+                        <div className="flex flex-col items-center gap-1">
+                          <img 
+                            src={match.teamInfo[1].img} 
+                            alt={match.teamInfo[1].shortname}
+                            className="h-12 w-12 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder-team.png';
+                            }}
+                          />
+                          <span className="text-xs font-semibold text-slate-700">{match.teamInfo[1].shortname}</span>
                         </div>
                       </div>
-                      
-                      <h3 className="font-bold text-slate-900 mb-2 line-clamp-2">{match.name}</h3>
-                      
-                      <div className="flex items-center gap-1 text-sm text-slate-600 mb-4">
-                        <Clock className="h-4 w-4" />
-                        <span>{new Date(match.dateTimeGMT).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span>
-                      </div>
-                      
-                      <p className="text-sm text-slate-600 mb-4 line-clamp-1">{match.venue}</p>
-                      
-                      <Link href={`/create-team/${match.id}`}>
-                        <Button className="w-full btn-brand">
-                          <Trophy className="mr-2 h-4 w-4" />
-                          Create Team
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
+                    )}
+                    
+                    <Link href={`/create-team/${match.id}`}>
+                      <Button className="w-full btn-brand">
+                        <Trophy className="mr-2 h-4 w-4" />
+                        Create Team
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
             
             <div className="text-center mt-8">
               <Link href="/matches">
@@ -229,7 +341,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      )}
+      ) : null}
 
       {/* QUICK STATS BANNER */}
       <section className="py-12 bg-gradient-to-r from-teal-600 to-blue-600">
