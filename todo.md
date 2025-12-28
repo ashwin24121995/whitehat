@@ -238,3 +238,10 @@
 - [x] Convert GMT to IST timezone for match times
 - [x] Handle cases when no live matches are available
 - [x] Add "View All Matches" link to matches page
+
+## Hero Section Background and Logo Improvements (User Request)
+- [x] Generate cricket stadium background image for hero section
+- [x] Add background image to hero section with proper overlay
+- [x] Increase logo size in header for better visibility
+- [x] Test design on different screen sizes
+- [x] Ensure text remains readable over background image

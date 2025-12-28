@@ -26,12 +26,14 @@ export default function Home() {
       <section 
         className="relative pt-24 pb-16 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(/hero-bg-stadium.jpg)',
+          backgroundImage: 'url(/hero-stadium-bg.jpg)',
           backgroundBlendMode: 'overlay',
-          backgroundColor: 'rgba(255, 255, 255, 0.95)'
+          backgroundColor: 'rgba(255, 255, 255, 0.85)'
         }}
       >
-        <div className="container">
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 to-white/85"></div>
+        <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div className="space-y-6">

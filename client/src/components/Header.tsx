@@ -26,7 +26,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
-              <img src="/logo-whitehat.png" alt="WHITEHAT" className="h-12 w-auto" />
+              <img src="/logo-whitehat.png" alt="WHITEHAT" className="h-16 w-auto" />
             </div>
           </Link>
 
