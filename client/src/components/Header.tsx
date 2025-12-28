@@ -2,11 +2,20 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, Settings, LogOut, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Header() {
   const { user, isAuthenticated } = useAuth();
@@ -71,21 +80,53 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-4">
             <LanguageSwitcher />
             {isAuthenticated ? (
-              <>
-                <Link href="/dashboard">
-                  <Button className="btn-primary">
-                    {t.nav.profile}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar className="h-10 w-10">
+                      <AvatarFallback className="bg-primary text-primary-foreground">
+                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
                   </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  onClick={handleLogout}
-                  disabled={logoutMutation.isPending}
-                  className="rounded-full border-2 hover:bg-destructive hover:text-white hover:border-destructive"
-                >
-                  {t.common.logout}
-                </Button>
-              </>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{user?.name}</p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">
+                      <a className="flex items-center w-full cursor-pointer">
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <span>Dashboard</span>
+                      </a>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile/settings">
+                      <a className="flex items-center w-full cursor-pointer">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Profile Settings</span>
+                      </a>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    disabled={logoutMutation.isPending}
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
                 <Link href="/login">
@@ -156,7 +197,14 @@ export default function Header() {
                   <>
                     <Link href="/dashboard">
                       <Button className="btn-primary w-full" onClick={() => setMobileMenuOpen(false)}>
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
                         Dashboard
+                      </Button>
+                    </Link>
+                    <Link href="/profile/settings">
+                      <Button variant="outline" className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                        <Settings className="mr-2 h-4 w-4" />
+                        Profile Settings
                       </Button>
                     </Link>
                     <Button
@@ -166,8 +214,9 @@ export default function Header() {
                         setMobileMenuOpen(false);
                       }}
                       disabled={logoutMutation.isPending}
-                      className="w-full rounded-full border-2"
+                      className="w-full rounded-full border-2 text-destructive hover:bg-destructive hover:text-white"
                     >
+                      <LogOut className="mr-2 h-4 w-4" />
                       Logout
                     </Button>
                   </>
