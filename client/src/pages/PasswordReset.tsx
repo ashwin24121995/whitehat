@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,28 +7,68 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { KeyRound, Mail, CheckCircle2 } from "lucide-react";
+import { KeyRound, Mail, CheckCircle2, Lock } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 export default function PasswordReset() {
+  const [, navigate] = useLocation();
   const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [devToken, setDevToken] = useState(""); // For development only
+  const [step, setStep] = useState<"request" | "reset">("request");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const requestResetMutation = trpc.auth.requestPasswordReset.useMutation({
+    onSuccess: (data) => {
+      setSuccess(true);
+      // In development, show the token
+      if (data.devToken) {
+        setDevToken(data.devToken);
+      }
+    },
+    onError: (error) => {
+      setError(error.message || "Failed to send reset link. Please try again.");
+    },
+  });
+
+  const resetPasswordMutation = trpc.auth.resetPassword.useMutation({
+    onSuccess: () => {
+      // Redirect to login with success message
+      navigate("/login?reset=success");
+    },
+    onError: (error) => {
+      setError(error.message || "Failed to reset password. Please try again.");
+    },
+  });
+
+  const handleRequestReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true);
-
-    // TODO: Implement password reset API call
-    // For now, simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      setSuccess(true);
-    }, 1500);
+    requestResetMutation.mutate({ email });
   };
 
-  if (success) {
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (newPassword !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+
+    resetPasswordMutation.mutate({ token, newPassword });
+  };
+
+  // Success screen after requesting reset
+  if (success && step === "request") {
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
@@ -43,11 +83,118 @@ export default function PasswordReset() {
                 We've sent a password reset link to <strong>{email}</strong>. 
                 Please check your inbox and follow the instructions to reset your password.
               </p>
+              {devToken && (
+                <Alert className="mb-6">
+                  <AlertDescription className="text-left">
+                    <strong>Development Mode:</strong> Your reset token is:
+                    <code className="block mt-2 p-2 bg-muted rounded text-xs break-all">
+                      {devToken}
+                    </code>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-2 w-full"
+                      onClick={() => {
+                        setToken(devToken);
+                        setStep("reset");
+                      }}
+                    >
+                      Use This Token to Reset Password
+                    </Button>
+                  </AlertDescription>
+                </Alert>
+              )}
               <Link href="/login">
                 <Button className="w-full gradient-cricket">
                   Return to Login
                 </Button>
               </Link>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Reset password form (when user has token)
+  if (step === "reset") {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center py-12">
+          <Card className="glossy-card w-full max-w-md">
+            <CardHeader className="text-center">
+              <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Lock className="h-6 w-6 text-primary" />
+              </div>
+              <CardTitle className="text-2xl">Set New Password</CardTitle>
+              <CardDescription>
+                Enter your new password below
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleResetPassword} className="space-y-6">
+                {error && (
+                  <Alert variant="destructive">
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="token">Reset Token</Label>
+                  <Input
+                    id="token"
+                    type="text"
+                    placeholder="Enter reset token from email"
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="newPassword">New Password</Label>
+                  <Input
+                    id="newPassword"
+                    type="password"
+                    placeholder="At least 8 characters"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Re-enter your password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <Button 
+                  type="submit" 
+                  className="w-full gradient-cricket" 
+                  disabled={resetPasswordMutation.isPending}
+                >
+                  {resetPasswordMutation.isPending ? "Resetting..." : "Reset Password"}
+                </Button>
+
+                <div className="text-center text-sm">
+                  <Button 
+                    type="button"
+                    variant="link" 
+                    onClick={() => setStep("request")}
+                  >
+                    ← Back to Request Reset
+                  </Button>
+                </div>
+              </form>
             </CardContent>
           </Card>
         </main>
@@ -72,7 +219,7 @@ export default function PasswordReset() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleRequestReset} className="space-y-6">
               {error && (
                 <Alert variant="destructive">
                   <AlertDescription>{error}</AlertDescription>
@@ -98,10 +245,20 @@ export default function PasswordReset() {
               <Button 
                 type="submit" 
                 className="w-full gradient-cricket" 
-                disabled={isLoading}
+                disabled={requestResetMutation.isPending}
               >
-                {isLoading ? "Sending..." : "Send Reset Link"}
+                {requestResetMutation.isPending ? "Sending..." : "Send Reset Link"}
               </Button>
+
+              <div className="text-center text-sm">
+                <Button 
+                  type="button"
+                  variant="link" 
+                  onClick={() => setStep("reset")}
+                >
+                  Already have a reset token?
+                </Button>
+              </div>
 
               <div className="text-center text-sm">
                 <span className="text-muted-foreground">Remember your password? </span>

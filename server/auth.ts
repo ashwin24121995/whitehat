@@ -1,7 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { createUser, getUserByEmail, getUserById, updateUserLastSignedIn } from "./db";
+import crypto from "crypto";
+import { createUser, getUserByEmail, getUserById, updateUserLastSignedIn, createPasswordResetToken, getPasswordResetToken, deletePasswordResetToken, updateUserPassword } from "./db";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { SignJWT } from "jose";
 import { ENV } from "./_core/env";
@@ -213,4 +214,74 @@ export const authRouter = router({
       lastSignedIn: user.lastSignedIn,
     };
   }),
+
+  // Request password reset
+  requestPasswordReset: publicProcedure
+    .input(z.object({ email: z.string().email() }))
+    .mutation(async ({ input }) => {
+      const user = await getUserByEmail(input.email);
+      if (!user) {
+        // Don't reveal if email exists for security
+        return { success: true, message: "If the email exists, a reset link will be sent" };
+      }
+
+      // Generate random token
+      const token = crypto.randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
+
+      // Save token to database
+      await createPasswordResetToken({
+        userId: user.id,
+        token,
+        expiresAt,
+      });
+
+      // In a real app, send email here
+      // For now, just return the token (in production, this should be sent via email)
+      console.log(`Password reset token for ${user.email}: ${token}`);
+
+      return { 
+        success: true, 
+        message: "If the email exists, a reset link will be sent",
+        // Remove this in production - only for development
+        devToken: token 
+      };
+    }),
+
+  // Reset password with token
+  resetPassword: publicProcedure
+    .input(z.object({
+      token: z.string(),
+      newPassword: z.string().min(8, "Password must be at least 8 characters"),
+    }))
+    .mutation(async ({ input }) => {
+      // Find token in database
+      const resetToken = await getPasswordResetToken(input.token);
+      if (!resetToken) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Invalid or expired reset token",
+        });
+      }
+
+      // Check if token is expired
+      if (new Date() > resetToken.expiresAt) {
+        await deletePasswordResetToken(resetToken.id);
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Reset token has expired",
+        });
+      }
+
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(input.newPassword, 10);
+
+      // Update user password
+      await updateUserPassword(resetToken.userId, hashedPassword);
+
+      // Delete used token
+      await deletePasswordResetToken(resetToken.id);
+
+      return { success: true, message: "Password reset successfully" };
+    }),
 });
