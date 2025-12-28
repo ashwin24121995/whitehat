@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { notifyOwner } from "./notification";
 import { adminProcedure, publicProcedure, router } from "./trpc";
+import { getDb } from "../db";
 
 export const systemRouter = router({
   health: publicProcedure
@@ -12,6 +13,32 @@ export const systemRouter = router({
     .query(() => ({
       ok: true,
     })),
+
+  dbHealth: publicProcedure.query(async () => {
+    try {
+      const db = await getDb();
+      if (!db) {
+        return {
+          ok: false,
+          error: "Database instance is null",
+        };
+      }
+      
+      // Try a simple query
+      const result = await db.execute('SELECT 1 as test');
+      return {
+        ok: true,
+        message: "Database connection successful",
+        test: result,
+      };
+    } catch (error) {
+      console.error("[Health Check] Database error:", error);
+      return {
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }),
 
   notifyOwner: adminProcedure
     .input(
