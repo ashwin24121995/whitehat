@@ -133,4 +133,23 @@ export async function deletePasswordResetToken(id: number): Promise<void> {
   }
 }
 
+// Update user profile
+export async function updateUserProfile(
+  userId: number,
+  data: { name?: string; email?: string; phone?: string; state?: string }
+): Promise<void> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update profile: database not available");
+    return;
+  }
+
+  try {
+    await db.update(users).set(data).where(eq(users.id, userId));
+  } catch (error) {
+    console.error("[Database] Failed to update profile:", error);
+    throw error;
+  }
+}
+
 // TODO: add feature queries here as your schema grows.

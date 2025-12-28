@@ -56,8 +56,8 @@
 - [x] Team composition validation (11 players)
 - [x] Team preview and confirmation
 - [x] Save user teams to database (backend)
-- [ ] Profile settings page (future enhancement)
-- [ ] User profile editing (future enhancement)
+- [x] Profile settings page
+- [x] User profile editing (name, email, phone, state, password)
 
 ## Phase 6: Points & Leaderboard ✅
 - [x] Calculate user team points from API
@@ -301,3 +301,15 @@
 - [x] Add React Query refetchInterval for frontend auto-refresh
 - [x] Test caching performance and API call reduction
 - [x] Ensure live scores update automatically without page refresh
+
+## Phase 5 Implementation: User Profile Settings (Completed ✅)
+- [x] Create Profile Settings page UI
+- [x] Add form for editing user name, email, phone, state
+- [ ] Add avatar/profile picture upload functionality (future enhancement)
+- [x] Create backend endpoint for updating user profile
+- [x] Add password change functionality
+- [ ] Display user's team history (future enhancement)
+- [ ] Add account statistics (future enhancement)
+- [x] Implement form validation and error handling
+- [x] Add success notifications after profile updates
+- [x] Test profile editing flow end-to-end

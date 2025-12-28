@@ -21,6 +21,7 @@ import Matches from "./pages/Matches";
 import Leaderboard from "./pages/Leaderboard";
 import CreateTeam from "./pages/CreateTeam";
 import PasswordReset from "./pages/PasswordReset";
+import ProfileSettings from "./pages/ProfileSettings";
 
 function Router() {
   return (
@@ -42,6 +43,7 @@ function Router() {
       <Route path="/matches" component={Matches} />
       <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/matches/:matchId/create-team" component={CreateTeam} />
+      <Route path="/profile/settings" component={ProfileSettings} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

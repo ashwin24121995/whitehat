@@ -284,4 +284,80 @@ export const authRouter = router({
 
       return { success: true, message: "Password reset successfully" };
     }),
+
+  // Update user profile
+  updateProfile: protectedProcedure
+    .input(z.object({
+      name: z.string().min(2, "Name must be at least 2 characters").optional(),
+      email: z.string().email("Invalid email address").optional(),
+      phone: z.string().optional(),
+      state: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const user = await getUserById(ctx.user.id);
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+
+      // If email is being changed, check if it's already taken
+      if (input.email && input.email !== user.email) {
+        const existingUser = await getUserByEmail(input.email);
+        if (existingUser) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Email already in use",
+          });
+        }
+      }
+
+      // Check state restriction if state is being changed
+      if (input.state && RESTRICTED_STATES.includes(input.state)) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `This platform is not available in ${input.state} due to government compliance`,
+        });
+      }
+
+      // Update user in database
+      const db = await import("./db");
+      await db.updateUserProfile(ctx.user.id, input);
+
+      return { success: true, message: "Profile updated successfully" };
+    }),
+
+  // Change password
+  changePassword: protectedProcedure
+    .input(z.object({
+      currentPassword: z.string(),
+      newPassword: z.string().min(8, "Password must be at least 8 characters"),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const user = await getUserById(ctx.user.id);
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+
+      // Verify current password
+      const isValidPassword = await bcrypt.compare(input.currentPassword, user.password);
+      if (!isValidPassword) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Current password is incorrect",
+        });
+      }
+
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(input.newPassword, 10);
+
+      // Update password
+      await updateUserPassword(ctx.user.id, hashedPassword);
+
+      return { success: true, message: "Password changed successfully" };
+    }),
 });
