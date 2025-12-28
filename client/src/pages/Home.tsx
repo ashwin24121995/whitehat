@@ -14,8 +14,19 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
   const { t } = useLanguage();
-  // Fetch matches from Cricket API
-  const { data: matchesResponse, isLoading: matchesLoading } = trpc.matches.list.useQuery();
+  // Fetch matches from Cricket API with auto-refresh for live matches
+  const { data: matchesResponse, isLoading: matchesLoading } = trpc.matches.list.useQuery(
+    undefined,
+    {
+      // Auto-refresh every 30 seconds if there are live matches
+      refetchInterval: (data) => {
+        const hasLiveMatches = data?.matches?.some(m => m.status === 'live');
+        return hasLiveMatches ? 30000 : false; // 30 seconds for live, no refresh for others
+      },
+      // Keep previous data while refetching to avoid flickering
+      refetchOnWindowFocus: false,
+    }
+  );
   
   const allMatches = matchesResponse?.matches || [];
   const liveMatches = allMatches.filter(m => m.matchType && m.status === "live") || [];

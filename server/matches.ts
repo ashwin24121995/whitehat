@@ -8,6 +8,7 @@ import {
   getMatchStatus,
   isMatchAvailableForTeamCreation
 } from "./cricket-api";
+import { cacheService, CACHE_TTL } from "./cache";
 
 export const matchesRouter = router({
   /**
@@ -15,6 +16,15 @@ export const matchesRouter = router({
    */
   list: publicProcedure.query(async () => {
     try {
+      const cacheKey = 'matches:current';
+      
+      // Try to get from cache first
+      const cached = cacheService.get<any>(cacheKey);
+      if (cached) {
+        return cached;
+      }
+
+      // Fetch from API if not in cache
       const matches = await getCurrentMatches();
       
       // Add additional computed fields
@@ -24,10 +34,19 @@ export const matchesRouter = router({
         availableForTeamCreation: isMatchAvailableForTeamCreation(match)
       }));
 
-      return {
+      const result = {
         matches: enrichedMatches,
         count: enrichedMatches.length
       };
+
+      // Determine TTL based on match statuses
+      const hasLiveMatches = enrichedMatches.some(m => m.status === 'live');
+      const ttl = hasLiveMatches ? CACHE_TTL.LIVE_MATCHES : CACHE_TTL.UPCOMING_MATCHES;
+      
+      // Cache the result
+      cacheService.set(cacheKey, result, ttl);
+
+      return result;
     } catch (error) {
       throw new Error("Failed to fetch matches");
     }
