@@ -422,3 +422,4 @@
 - [ ] Test team creation flow after login
 - [ ] Test leaderboard access after login
 - [ ] Test profile settings after login
+- [x] Add favicon to website
