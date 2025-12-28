@@ -22,11 +22,12 @@ export default function HowToPlay() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="py-16 md:py-24 gradient-cricket text-white">
-          <div className="container text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">How To Play Fantasy Cricket</h1>
-            <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-              Learn how to build your dream cricket team and compete with thousands of players in just 4 simple steps!
+        <section className="relative py-24 md:py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/howtoplay-hero.jpg)'}}>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-teal-900/70 to-black/80"></div>
+          <div className="container text-center relative z-10">
+            <h1 className="text-4xl md:text-6xl font-black mb-6 drop-shadow-2xl">How To Play Fantasy Cricket</h1>
+            <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto leading-relaxed drop-shadow-lg">
+              Master the game in 4 simple steps! Build your dream team, compete with others, and climb the leaderboard—all for free.
             </p>
           </div>
         </section>

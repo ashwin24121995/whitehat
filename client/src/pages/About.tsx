@@ -9,17 +9,17 @@ export default function About() {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative py-24 bg-gradient-to-br from-orange-500 via-purple-600 to-pink-500 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-40 h-40 bg-yellow-300 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-48 h-48 bg-pink-300 rounded-full blur-3xl animate-pulse"></div>
-        </div>
+      <section className="relative py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/about-hero.jpg)'}}>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-purple-900/70 to-black/80"></div>
         
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-black mb-6 drop-shadow-2xl">About WHITEHAT</h1>
-            <p className="text-2xl md:text-3xl leading-relaxed font-medium drop-shadow-lg">
+            <p className="text-2xl md:text-3xl leading-relaxed font-medium drop-shadow-lg mb-8">
               India's Premier Free-to-Play Fantasy Cricket Platform
+            </p>
+            <p className="text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+              Empowering cricket fans with knowledge, strategy, and pure entertainment—without any financial risk.
             </p>
           </div>
         </div>
@@ -62,6 +62,29 @@ export default function About() {
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story */}
+      <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
+        <div className="container">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-5xl font-black text-center mb-12 text-slate-900">Our Story</h2>
+            <div className="prose prose-lg max-w-none">
+              <p className="text-xl leading-relaxed text-slate-700 mb-6">
+                Founded in 2015, <strong>WHITEHAT INFOTECH PRIVATE LIMITED</strong> began with a simple yet powerful vision: to make fantasy cricket accessible to everyone, regardless of their financial situation. We recognized that while fantasy sports were growing rapidly in India, many platforms required real money investment, creating barriers for cricket enthusiasts who simply wanted to enjoy the game.
+              </p>
+              <p className="text-xl leading-relaxed text-slate-700 mb-6">
+                Our founders, passionate cricket fans themselves, understood that fantasy cricket is fundamentally about <strong>skill, strategy, and cricket knowledge</strong>—not gambling or financial risk. They envisioned a platform where users could build dream teams, compete with friends, and climb leaderboards purely for the joy of the game.
+              </p>
+              <p className="text-xl leading-relaxed text-slate-700 mb-6">
+                Today, we're proud to offer a completely <strong>free-to-play platform</strong> that combines real-time cricket data, intuitive team building, and competitive leaderboards—all without asking users to spend a single rupee. Our commitment to responsible gaming, legal compliance, and user education sets us apart in the industry.
+              </p>
+              <p className="text-xl leading-relaxed text-slate-700">
+                We believe that cricket brings people together, and fantasy cricket should enhance that experience—not create financial stress. That's why we're 100% free, 100% educational, and 100% committed to our users.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -162,6 +185,72 @@ export default function About() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Milestones */}
+      <section className="py-20 bg-white">
+        <div className="container">
+          <h2 className="text-5xl font-black text-center mb-16 text-slate-900">Our Journey</h2>
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-8">
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="h-16 w-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full flex items-center justify-center text-white font-black text-xl shadow-lg">
+                    2015
+                  </div>
+                </div>
+                <div className="flex-1 pt-2">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Company Founded</h3>
+                  <p className="text-lg text-slate-600 leading-relaxed">
+                    WHITEHAT INFOTECH PRIVATE LIMITED was incorporated with the vision of making fantasy cricket accessible to all Indians.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="h-16 w-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-black text-xl shadow-lg">
+                    2020
+                  </div>
+                </div>
+                <div className="flex-1 pt-2">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Platform Development</h3>
+                  <p className="text-lg text-slate-600 leading-relaxed">
+                    Began development of our free-to-play fantasy cricket platform with focus on user experience and real-time data integration.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="h-16 w-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white font-black text-xl shadow-lg">
+                    2023
+                  </div>
+                </div>
+                <div className="flex-1 pt-2">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Multi-language Support</h3>
+                  <p className="text-lg text-slate-600 leading-relaxed">
+                    Launched support for Hindi and Marathi to reach cricket fans across India in their preferred language.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="h-16 w-16 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center text-white font-black text-xl shadow-lg">
+                    2025
+                  </div>
+                </div>
+                <div className="flex-1 pt-2">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">Full Platform Launch</h3>
+                  <p className="text-lg text-slate-600 leading-relaxed">
+                    Official launch of WHITEHAT Fantasy Cricket with live matches, real-time scoring, leaderboards, and comprehensive user features.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
