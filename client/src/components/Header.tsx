@@ -21,134 +21,171 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        {/* Logo */}
-        <Link href="/">
-          <a className="flex items-center">
-            <img src="/logo-whitehat.png" alt="WHITEHAT Fantasy Cricket" className="h-12 w-auto" />
-          </a>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+    <header className="sticky top-0 z-50 bg-blue-50/80 backdrop-blur-xl border-b border-blue-100 shadow-sm"> <div className="container">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
           <Link href="/">
-            <a className="text-sm font-medium hover:text-primary transition-colors">Home</a>
+            <div className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
+              <img src="/logo-whitehat.png" alt="WHITEHAT" className="h-12 w-auto" />
+            </div>
           </Link>
-          <Link href="/about">
-            <a className="text-sm font-medium hover:text-primary transition-colors">About Us</a>
-          </Link>
-          <Link href="/how-to-play">
-            <a className="text-sm font-medium hover:text-primary transition-colors">How To Play</a>
-          </Link>
-          <Link href="/faq">
-            <a className="text-sm font-medium hover:text-primary transition-colors">FAQ</a>
-          </Link>
-          <Link href="/blog">
-            <a className="text-sm font-medium hover:text-primary transition-colors">Blog</a>
-          </Link>
-          <Link href="/contact">
-            <a className="text-sm font-medium hover:text-primary transition-colors">Contact</a>
-          </Link>
-        </nav>
 
-        {/* Auth Buttons */}
-        <div className="hidden md:flex items-center gap-3">
-          {isAuthenticated ? (
-            <>
-              <Link href="/dashboard">
-                <Button variant="outline">Dashboard</Button>
-              </Link>
-              <Button variant="ghost" onClick={handleLogout} disabled={logoutMutation.isPending}>
-                Logout
-              </Button>
-            </>
-          ) : (
-            <>
-              <Link href="/login">
-                <Button variant="outline">Login</Button>
-              </Link>
-              <Link href="/register">
-                <Button variant="default">Register</Button>
-              </Link>
-            </>
-          )}
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t bg-background">
-          <nav className="container flex flex-col gap-4 py-4">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
             <Link href="/">
-              <a className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
                 Home
               </a>
             </Link>
             <Link href="/about">
-              <a className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
                 About Us
               </a>
             </Link>
             <Link href="/how-to-play">
-              <a className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
                 How To Play
               </a>
             </Link>
             <Link href="/faq">
-              <a className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
                 FAQ
               </a>
             </Link>
             <Link href="/blog">
-              <a className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
                 Blog
               </a>
             </Link>
             <Link href="/contact">
-              <a className="text-sm font-medium hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
                 Contact
               </a>
             </Link>
-            <div className="flex flex-col gap-2 pt-4 border-t">
-              {isAuthenticated ? (
-                <>
-                  <Link href="/dashboard">
-                    <Button variant="outline" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                      Dashboard
-                    </Button>
-                  </Link>
-                  <Button variant="ghost" className="w-full" onClick={() => { handleLogout(); setMobileMenuOpen(false); }} disabled={logoutMutation.isPending}>
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link href="/login">
-                    <Button variant="outline" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                      Login
-                    </Button>
-                  </Link>
-                  <Link href="/register">
-                    <Button variant="default" className="w-full" onClick={() => setMobileMenuOpen(false)}>
-                      Register
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </div>
           </nav>
+
+          {/* Desktop Auth Buttons */}
+          <div className="hidden md:flex items-center gap-4">
+            {isAuthenticated ? (
+              <>
+                <Link href="/dashboard">
+                  <Button className="btn-primary">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  onClick={handleLogout}
+                  disabled={logoutMutation.isPending}
+                  className="rounded-full border-2 hover:bg-destructive hover:text-white hover:border-destructive"
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button variant="ghost" className="rounded-full font-semibold hover:text-primary">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button className="btn-secondary">
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="h-6 w-6 text-foreground" />
+            ) : (
+              <Menu className="h-6 w-6 text-foreground" />
+            )}
+          </button>
         </div>
-      )}
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-6 border-t border-border animate-fade-in-up">
+            <nav className="flex flex-col gap-4">
+              <Link href="/">
+                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  Home
+                </a>
+              </Link>
+              <Link href="/about">
+                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  About Us
+                </a>
+              </Link>
+              <Link href="/how-to-play">
+                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  How To Play
+                </a>
+              </Link>
+              <Link href="/faq">
+                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  FAQ
+                </a>
+              </Link>
+              <Link href="/blog">
+                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  Blog
+                </a>
+              </Link>
+              <Link href="/contact">
+                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  Contact
+                </a>
+              </Link>
+              
+              <div className="flex flex-col gap-3 pt-4 border-t border-border">
+                {isAuthenticated ? (
+                  <>
+                    <Link href="/dashboard">
+                      <Button className="btn-primary w-full" onClick={() => setMobileMenuOpen(false)}>
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        handleLogout();
+                        setMobileMenuOpen(false);
+                      }}
+                      disabled={logoutMutation.isPending}
+                      className="w-full rounded-full border-2"
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login">
+                      <Button variant="outline" className="w-full rounded-full border-2" onClick={() => setMobileMenuOpen(false)}>
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/register">
+                      <Button className="btn-secondary w-full" onClick={() => setMobileMenuOpen(false)}>
+                        Register
+                      </Button>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </nav>
+          </div>
+        )}
+      </div>
     </header>
   );
 }

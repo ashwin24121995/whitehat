@@ -1,237 +1,190 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Trophy, Target, Heart, Shield } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Target, Users, Heart, Shield, TrendingUp, Award } from "lucide-react";
 
 export default function About() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="py-16 md:py-24 gradient-stadium text-white">
-          <div className="container text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About WHITEHAT Fantasy Cricket</h1>
-            <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-              India's premier free-to-play fantasy cricket platform, dedicated to cricket education and entertainment without any financial pressure.
+      {/* Hero Section */}
+      <section className="relative py-24 bg-gradient-to-br from-orange-500 via-purple-600 to-pink-500 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-40 h-40 bg-yellow-300 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-48 h-48 bg-pink-300 rounded-full blur-3xl animate-pulse"></div>
+        </div>
+        
+        <div className="container relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-5xl md:text-7xl font-black mb-6 drop-shadow-2xl">About WHITEHAT</h1>
+            <p className="text-2xl md:text-3xl leading-relaxed font-medium drop-shadow-lg">
+              India's Premier Free-to-Play Fantasy Cricket Platform
             </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Company Story */}
-        <section className="py-16 md:py-20">
-          <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">Our Story</h2>
-              <div className="prose prose-lg max-w-none">
-                <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                  WHITEHAT Fantasy Cricket was born from a simple yet powerful vision: to make fantasy cricket accessible to everyone, regardless of their financial situation. We believe that the thrill of building dream teams, analyzing player performances, and competing with fellow cricket enthusiasts should be available to all without the pressure of real money transactions.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                  Founded by WHITEHAT INFOTECH PRIVATE LIMITED, we are backed by investors who share our passion for cricket education and responsible gaming. Our platform serves as a learning ground where users can develop strategic thinking, understand cricket analytics, and enjoy the game they love in a completely risk-free environment.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Since our inception, we have been committed to maintaining the highest standards of fair play, transparency, and user safety. We operate in full compliance with Indian laws and regulations, ensuring that our platform remains a safe and enjoyable space for cricket fans aged 18 and above.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Mission & Vision */}
-        <section className="py-16 md:py-20 bg-muted/30">
-          <div className="container">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              <Card className="glossy-card">
-                <CardHeader>
-                  <Target className="h-12 w-12 text-primary mb-4" />
-                  <CardTitle className="text-2xl">Our Mission</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    To democratize fantasy cricket by providing a completely free platform where users can learn, compete, and enjoy the strategic aspects of cricket without any financial risk. We aim to educate cricket enthusiasts about player analysis, team building, and match strategy while promoting responsible gaming practices.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="glossy-card">
-                <CardHeader>
-                  <TrendingUp className="h-12 w-12 text-secondary mb-4" />
-                  <CardTitle className="text-2xl">Our Vision</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    To become India's most trusted and loved free-to-play fantasy cricket platform, where millions of cricket fans can experience the joy of fantasy sports purely for entertainment and skill development. We envision a community where cricket knowledge and strategic thinking are celebrated without monetary incentives.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Core Values */}
-        <section className="py-16 md:py-20">
-          <div className="container">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Our Core Values</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-10 w-10 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Fair Play</h3>
-                <p className="text-muted-foreground">
-                  We maintain strict fair play policies and transparent scoring systems to ensure every user has an equal opportunity to succeed based on their cricket knowledge and strategic skills.
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-4">
-                  <Heart className="h-10 w-10 text-secondary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Responsibility</h3>
-                <p className="text-muted-foreground">
-                  We are committed to responsible gaming practices, ensuring our platform remains purely educational and entertaining without encouraging any form of gambling or financial risk-taking.
-                </p>
-              </div>
-
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-10 w-10 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Community</h3>
-                <p className="text-muted-foreground">
-                  We foster a vibrant community of cricket enthusiasts who share their passion for the game, learn from each other, and celebrate cricket together in a positive environment.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us */}
-        <section className="py-16 md:py-20 bg-muted/30">
-          <div className="container">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Why Choose WHITEHAT Fantasy Cricket?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Award className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">100% Free Forever</h3>
-                  <p className="text-muted-foreground">
-                    No hidden charges, no deposits, no withdrawals. Play as much as you want without spending a single rupee.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Shield className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Safe & Secure</h3>
-                  <p className="text-muted-foreground">
-                    Your data is protected with industry-standard security measures. We never ask for payment information.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Target className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Educational Focus</h3>
-                  <p className="text-muted-foreground">
-                    Learn cricket strategy, player analysis, and team building skills in a risk-free environment.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Users className="h-8 w-8 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">Active Community</h3>
-                  <p className="text-muted-foreground">
-                    Join thousands of cricket fans who share your passion and compete in a friendly environment.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Company Information */}
-        <section className="py-16 md:py-20">
-          <div className="container">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Company Information</h2>
-              <Card className="glossy-card">
-                <CardContent className="pt-6">
-                  <div className="space-y-4">
-                    <div className="flex justify-center mb-6">
-                      <img src="/logo-whitehat.png" alt="WHITEHAT INFOTECH" className="h-16 w-auto" />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="font-semibold text-foreground mb-1">Company Name</p>
-                        <p className="text-muted-foreground">WHITEHAT INFOTECH PRIVATE LIMITED</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-foreground mb-1">CIN</p>
-                        <p className="text-muted-foreground">U72300UP2015PTC073049</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-foreground mb-1">PAN</p>
-                        <p className="text-muted-foreground">AABCW6952B</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-foreground mb-1">Website</p>
-                        <p className="text-muted-foreground">
-                          <a href="https://whitehatinfotech.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                            whitehatinfotech.com
-                          </a>
-                        </p>
-                      </div>
-                      <div className="md:col-span-2">
-                        <p className="font-semibold text-foreground mb-1">Registered Office</p>
-                        <p className="text-muted-foreground">
-                          308, BAKHTAVAR STREET<br />
-                          HATHRAS, HATHRAS - 204101<br />
-                          Uttar Pradesh, INDIA
-                        </p>
-                      </div>
-                    </div>
+      {/* Company Info */}
+      <section className="py-20 bg-white">
+        <div className="container">
+          <div className="max-w-5xl mx-auto">
+            <Card className="border-2 border-purple-100 shadow-2xl bg-gradient-to-br from-white to-purple-50">
+              <CardHeader>
+                <CardTitle className="text-4xl font-black text-slate-900 text-center mb-4">
+                  WHITEHAT INFOTECH PRIVATE LIMITED
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6 text-lg text-slate-700">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="p-6 bg-white rounded-xl shadow-md border-l-4 border-teal-500">
+                    <p className="font-semibold text-slate-900 mb-2">Company Registration</p>
+                    <p className="text-base">CIN: U72300UP2015PTC073049</p>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <div className="p-6 bg-white rounded-xl shadow-md border-l-4 border-orange-500">
+                    <p className="font-semibold text-slate-900 mb-2">PAN Number</p>
+                    <p className="text-base">AABCW6952B</p>
+                  </div>
+                </div>
+                
+                <div className="p-6 bg-white rounded-xl shadow-md border-l-4 border-purple-500">
+                  <p className="font-semibold text-slate-900 mb-2">Head Office</p>
+                  <p className="text-base">308, BAKHTAVAR STREET, HATHRAS, HATHRAS - 204101, Uttar Pradesh, INDIA</p>
+                </div>
+                
+                <div className="p-6 bg-white rounded-xl shadow-md border-l-4 border-pink-500">
+                  <p className="font-semibold text-slate-900 mb-2">Website</p>
+                  <p className="text-base">
+                    <a href="https://whitehatinfotech.com" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:text-purple-800 font-semibold underline">
+                      whitehatinfotech.com
+                    </a>
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Compliance Notice */}
-        <section className="py-12 bg-muted/50">
-          <div className="container">
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6">
-                <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-destructive" />
-                  Legal Compliance & Restrictions
-                </h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  WHITEHAT Fantasy Cricket operates in strict compliance with Indian laws and regulations. We are committed to maintaining a safe, fair, and legal platform for all our users.
+      {/* Mission & Vision */}
+      <section className="py-20 bg-gradient-to-b from-slate-900 via-purple-900/20 to-slate-900">
+        <div className="container">
+          <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+            <Card className="bg-gradient-to-br from-teal-500 to-teal-600 border-none shadow-2xl hover:shadow-teal-500/50 transition-all hover:-translate-y-2">
+              <CardHeader>
+                <div className="h-20 w-20 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mb-6 shadow-xl">
+                  <Target className="h-10 w-10 text-white" />
+                </div>
+                <CardTitle className="text-4xl font-black text-white">Our Mission</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-xl leading-relaxed text-white/95 font-medium">
+                  To provide a completely free, educational fantasy cricket platform that allows users to enjoy the thrill of fantasy sports without any financial risk or pressure.
                 </p>
-                <p className="text-sm font-semibold text-destructive">
-                  ⚠️ This platform is NOT available in Andhra Pradesh, Assam, Odisha, Telangana, Nagaland, and Sikkim due to state regulations. Only users 18 years and older are permitted to register and play.
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-purple-600 to-pink-600 border-none shadow-2xl hover:shadow-purple-500/50 transition-all hover:-translate-y-2">
+              <CardHeader>
+                <div className="h-20 w-20 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center mb-6 shadow-xl">
+                  <Heart className="h-10 w-10 text-white" />
+                </div>
+                <CardTitle className="text-4xl font-black text-white">Our Vision</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-xl leading-relaxed text-white/95 font-medium">
+                  To become India's most trusted free-to-play fantasy cricket platform, promoting cricket knowledge and strategic thinking among fans of all ages.
                 </p>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* Core Values */}
+      <section className="py-20 bg-slate-50">
+        <div className="container">
+          <h2 className="text-5xl font-black text-center mb-16 text-slate-900">Our Core Values</h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            <Card className="glossy-card border-2 border-teal-100 bg-gradient-to-br from-white to-teal-50 hover:-translate-y-2 transition-all">
+              <CardHeader className="text-center">
+                <div className="h-16 w-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Trophy className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl text-slate-900">Free to Play</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-center text-slate-600 leading-relaxed">
+                  100% free platform with no hidden costs or real money involved
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="glossy-card border-2 border-orange-100 bg-gradient-to-br from-white to-orange-50 hover:-translate-y-2 transition-all">
+              <CardHeader className="text-center">
+                <div className="h-16 w-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Shield className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl text-slate-900">Safe & Secure</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-center text-slate-600 leading-relaxed">
+                  Age-verified (18+) with full state compliance and data protection
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="glossy-card border-2 border-purple-100 bg-gradient-to-br from-white to-purple-50 hover:-translate-y-2 transition-all">
+              <CardHeader className="text-center">
+                <div className="h-16 w-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Heart className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl text-slate-900">Educational</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-center text-slate-600 leading-relaxed">
+                  Learn cricket strategy and improve your knowledge without pressure
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="glossy-card border-2 border-pink-100 bg-gradient-to-br from-white to-pink-50 hover:-translate-y-2 transition-all">
+              <CardHeader className="text-center">
+                <div className="h-16 w-16 bg-gradient-to-br from-pink-400 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <Target className="h-8 w-8 text-white" />
+                </div>
+                <CardTitle className="text-2xl text-slate-900">Fair Play</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-center text-slate-600 leading-relaxed">
+                  Transparent, fair, and ethical platform for all cricket enthusiasts
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Why We're Different */}
+      <section className="py-20 bg-gradient-to-r from-orange-500 via-purple-600 to-pink-500 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 left-10 w-40 h-40 bg-yellow-300 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-48 h-48 bg-pink-300 rounded-full blur-3xl animate-pulse"></div>
+        </div>
+
+        <div className="container relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-5xl font-black mb-8 drop-shadow-lg">Why We're Different</h2>
+            <p className="text-2xl leading-relaxed mb-8 font-medium drop-shadow">
+              Unlike other fantasy platforms, we're backed by investors who believe in fantasy education. Our goal isn't profit—it's to provide a safe, fun, and educational environment for cricket fans to enjoy fantasy cricket without any financial risk.
+            </p>
+            <p className="text-xl leading-relaxed font-medium drop-shadow">
+              We're committed to responsible gaming, fair play, and creating a community where cricket knowledge and strategy matter more than money.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>

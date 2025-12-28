@@ -43,76 +43,40 @@
 }
 
 :root {
-  /* Cricket-themed colors using OKLCH format */
-  --primary: oklch(0.55 0.18 160); /* Cricket Green */
+  /* WHITEHAT Logo Colors - OKLCH format */
+  --primary: oklch(0.60 0.15 180); /* Teal Green #00A896 */
   --primary-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.55 0.18 160);
+  --secondary: oklch(0.35 0.10 250); /* Navy Blue #1B4079 */
+  --secondary-foreground: oklch(1 0 0);
+  --accent: oklch(0.75 0.12 170); /* Light Teal */
+  --accent-foreground: oklch(0.20 0.01 240);
+  --sidebar-primary: oklch(0.60 0.15 180);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --chart-1: oklch(0.65 0.15 160);
-  --chart-2: oklch(0.55 0.18 160);
-  --chart-3: oklch(0.45 0.18 160);
-  --chart-4: oklch(0.60 0.20 250);
-  --chart-5: oklch(0.75 0.15 85);
-  --radius: 0.75rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 250);
+  --chart-1: oklch(0.60 0.15 180); /* Teal */
+  --chart-2: oklch(0.35 0.10 250); /* Navy */
+  --chart-3: oklch(0.75 0.12 170); /* Light Teal */
+  --chart-4: oklch(0.70 0.20 60); /* Gold accent */
+  --chart-5: oklch(0.50 0.15 200); /* Deep Teal */
+  --radius: 1rem;
+  --background: oklch(0.99 0.002 180);
+  --foreground: oklch(0.20 0.01 240);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 250);
+  --card-foreground: oklch(0.20 0.01 240);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 250);
-  --secondary: oklch(0.60 0.20 250); /* Cricket Blue */
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.75 0.15 85); /* Cricket Gold */
-  --accent-foreground: oklch(0.235 0.015 250);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.55 0.18 160);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 250);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.55 0.18 160);
-}
-
-.dark {
-  /* Dark theme with cricket colors */
-  --primary: oklch(0.55 0.18 160);
-  --primary-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.55 0.18 160);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --background: oklch(0.15 0.015 250); /* Stadium Night */
-  --foreground: oklch(0.95 0.005 250);
-  --card: oklch(0.20 0.015 250);
-  --card-foreground: oklch(0.95 0.005 250);
-  --popover: oklch(0.20 0.015 250);
-  --popover-foreground: oklch(0.95 0.005 250);
-  --secondary: oklch(0.60 0.20 250);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.25 0.015 250);
-  --muted-foreground: oklch(0.70 0.015 250);
-  --accent: oklch(0.75 0.15 85);
-  --accent-foreground: oklch(0.15 0.015 250);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.55 0.18 160);
-  --chart-1: oklch(0.65 0.15 160);
-  --chart-2: oklch(0.55 0.18 160);
-  --chart-3: oklch(0.45 0.18 160);
-  --chart-4: oklch(0.60 0.20 250);
-  --chart-5: oklch(0.75 0.15 85);
-  --sidebar: oklch(0.20 0.015 250);
-  --sidebar-foreground: oklch(0.95 0.005 250);
-  --sidebar-accent: oklch(0.25 0.015 250);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.55 0.18 160);
+  --popover-foreground: oklch(0.20 0.01 240);
+  --muted: oklch(0.96 0.005 180);
+  --muted-foreground: oklch(0.50 0.01 240);
+  --destructive: oklch(0.60 0.28 15);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.005 180);
+  --input: oklch(0.92 0.005 180);
+  --ring: oklch(0.60 0.15 180);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.20 0.01 240);
+  --sidebar-accent: oklch(0.96 0.005 180);
+  --sidebar-accent-foreground: oklch(0.20 0.01 240);
+  --sidebar-border: oklch(0.92 0.005 180);
+  --sidebar-ring: oklch(0.60 0.15 180);
 }
 
 @layer base {
@@ -122,10 +86,12 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
+    letter-spacing: -0.025em;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -141,24 +107,11 @@
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -169,57 +122,197 @@
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
 
-  /* Glossy effect utilities */
-  .glossy-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    transition: all 0.3s ease;
+  /* WHITEHAT Brand Gradients */
+  .gradient-brand {
+    background: linear-gradient(135deg, 
+      oklch(0.60 0.15 180) 0%,    /* Teal */
+      oklch(0.35 0.10 250) 100%   /* Navy */
+    );
   }
 
-  .glossy-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+  .gradient-brand-reverse {
+    background: linear-gradient(135deg, 
+      oklch(0.35 0.10 250) 0%,    /* Navy */
+      oklch(0.60 0.15 180) 100%   /* Teal */
+    );
   }
 
-  /* Cricket-themed gradients */
-  .gradient-cricket {
-    background: linear-gradient(135deg, oklch(0.55 0.18 160) 0%, oklch(0.60 0.20 250) 100%);
+  .gradient-teal-light {
+    background: linear-gradient(135deg, 
+      oklch(0.60 0.15 180) 0%, 
+      oklch(0.75 0.12 170) 100%
+    );
   }
 
-  .gradient-gold {
-    background: linear-gradient(135deg, oklch(0.75 0.15 85) 0%, oklch(0.80 0.12 70) 100%);
+  .gradient-navy-dark {
+    background: linear-gradient(135deg, 
+      oklch(0.35 0.10 250) 0%, 
+      oklch(0.25 0.08 250) 100%
+    );
   }
 
-  .gradient-stadium {
-    background: linear-gradient(180deg, oklch(0.15 0.015 250) 0%, oklch(0.60 0.20 250) 100%);
+  /* Modern Card Styles */
+  .card-brand {
+    @apply rounded-2xl shadow-xl transition-all duration-300;
+    @apply hover:-translate-y-2 hover:shadow-2xl;
+    @apply bg-white border-2 border-primary/20;
   }
 
-  /* Pulse glow animation */
-  @keyframes pulse-glow {
+  .card-teal {
+    @apply rounded-2xl shadow-xl transition-all duration-300;
+    @apply hover:-translate-y-2 hover:shadow-2xl;
+    background: linear-gradient(135deg, oklch(0.60 0.15 180) 0%, oklch(0.75 0.12 170) 100%);
+    @apply border-none;
+  }
+
+  .card-navy {
+    @apply rounded-2xl shadow-xl transition-all duration-300;
+    @apply hover:-translate-y-2 hover:shadow-2xl;
+    background: linear-gradient(135deg, oklch(0.35 0.10 250) 0%, oklch(0.25 0.08 250) 100%);
+    @apply border-none;
+  }
+
+  /* Section Styles */
+  .section-white {
+    @apply bg-white;
+  }
+
+  .section-light-teal {
+    @apply bg-gradient-to-br from-teal-50/40 via-white to-cyan-50/30;
+  }
+
+  .section-brand {
+    background: linear-gradient(135deg, 
+      oklch(0.60 0.15 180) 0%,
+      oklch(0.35 0.10 250) 100%
+    );
+    @apply text-white;
+  }
+
+  /* Button Styles */
+  .btn-brand {
+    background: linear-gradient(135deg, oklch(0.60 0.15 180) 0%, oklch(0.35 0.10 250) 100%);
+    @apply text-white rounded-full px-8 py-4;
+    @apply font-bold shadow-lg;
+    @apply hover:shadow-xl hover:scale-105;
+    @apply transition-all duration-300;
+  }
+
+  .btn-teal {
+    background: linear-gradient(135deg, oklch(0.60 0.15 180) 0%, oklch(0.75 0.12 170) 100%);
+    @apply text-white rounded-full px-8 py-4;
+    @apply font-bold shadow-lg;
+    @apply hover:shadow-xl hover:scale-105;
+    @apply transition-all duration-300;
+  }
+
+  .btn-navy {
+    background: linear-gradient(135deg, oklch(0.35 0.10 250) 0%, oklch(0.25 0.08 250) 100%);
+    @apply text-white rounded-full px-8 py-4;
+    @apply font-bold shadow-lg;
+    @apply hover:shadow-xl hover:scale-105;
+    @apply transition-all duration-300;
+  }
+
+  /* Animations */
+  @keyframes float {
     0%, 100% {
-      box-shadow: 0 0 20px oklch(0.55 0.18 160 / 0.5);
+      transform: translateY(0px);
     }
     50% {
-      box-shadow: 0 0 40px oklch(0.55 0.18 160 / 0.8);
+      transform: translateY(-20px);
     }
   }
 
-  .pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.6s ease-out;
+  }
+
+  /* Shadows */
+  .shadow-brand {
+    box-shadow: 0 10px 40px rgba(0, 168, 150, 0.2);
+  }
+
+  .shadow-navy {
+    box-shadow: 0 10px 40px rgba(27, 64, 121, 0.2);
+  }
+
+  /* Text Gradient */
+  .text-brand-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, oklch(0.60 0.15 180), oklch(0.35 0.10 250));
+  }
+
+  /* Glassmorphism */
+  .glass-brand {
+    @apply backdrop-blur-xl bg-white/90 border border-primary/20;
+    box-shadow: 0 10px 40px rgba(0, 168, 150, 0.2);
+  }
+
+  .glass-navy {
+    @apply backdrop-blur-xl bg-slate-900/90 border border-white/10;
+    box-shadow: 0 10px 40px rgba(27, 64, 121, 0.2);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(0.96 0.005 180);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, oklch(0.60 0.15 180), oklch(0.35 0.10 250));
+  border-radius: 10px;
+  border: 2px solid oklch(0.96 0.005 180);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, oklch(0.65 0.15 180), oklch(0.40 0.10 250));
 }

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // Cricket Data API Configuration
-const CRICKET_API_BASE_URL = "https://api.cricketdata.org";
-const API_KEY = "f0b0c6e1-0f3a-4f85-8e0a-3b5c5e5f5e5f"; // This will be replaced with actual key from environment
+const CRICKET_API_BASE_URL = process.env.CRICKET_API_URL || "https://api.cricapi.com/v1";
+const API_KEY = process.env.CRICKET_API_KEY || "1a822521-d7e0-46ff-98d3-3e51020863f3";
 
 interface CricketAPIResponse<T> {
   data: T;
@@ -96,9 +96,12 @@ export function formatISTDate(gmtDate: string): string {
 export async function getCurrentMatches(): Promise<Match[]> {
   try {
     const response = await axios.get<CricketAPIResponse<Match[]>>(
-      `${CRICKET_API_BASE_URL}/current_matches`,
+      `${CRICKET_API_BASE_URL}/currentMatches`,
       {
-        params: { apikey: API_KEY },
+        params: { 
+          apiKey: API_KEY,
+          offset: 0
+        },
         timeout: 10000
       }
     );
@@ -108,7 +111,7 @@ export async function getCurrentMatches(): Promise<Match[]> {
       const now = new Date();
       return response.data.data.filter(match => {
         const matchDate = new Date(match.dateTimeGMT);
-        return matchDate >= now || match.status === "Live" || !match.matchEnded;
+        return matchDate >= now || match.matchStarted || !match.matchEnded;
       });
     }
 
