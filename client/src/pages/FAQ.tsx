@@ -215,7 +215,7 @@ export default function FAQ() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-24 md:py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/faq-hero.jpg)'}}>
+        <section className="relative py-24 md:py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/faq-hero.webp)'}}>
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-blue-900/70 to-black/80"></div>
           <div className="container text-center relative z-10">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur rounded-full mb-6">

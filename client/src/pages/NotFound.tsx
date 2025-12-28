@@ -13,7 +13,7 @@ export default function NotFound() {
         <div className="container flex h-16 items-center justify-between">
           <Link href="/">
             <a className="flex items-center gap-3">
-              <img src="/logo-whitehat.png" alt="WHITEHAT INFOTECH" className="h-10 w-auto" />
+              <img src="/logo-whitehat.webp" alt="WHITEHAT INFOTECH" className="h-10 w-auto" />
               <span className="hidden font-bold text-xl md:inline-block">WHITEHAT Fantasy Cricket</span>
             </a>
           </Link>

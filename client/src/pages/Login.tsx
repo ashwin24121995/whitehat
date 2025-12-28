@@ -67,7 +67,7 @@ export default function Login() {
         <Card className="w-full max-w-md glossy-card">
           <CardHeader className="space-y-1">
             <div className="flex justify-center mb-4">
-              <img src="/logo-whitehat.png" alt="WHITEHAT INFOTECH" className="h-16 w-auto" />
+              <img src="/logo-whitehat.webp" alt="WHITEHAT INFOTECH" className="h-16 w-auto" />
             </div>
             <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
             <CardDescription className="text-center">

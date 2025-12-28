@@ -40,7 +40,7 @@ export default function Home() {
       <section 
         className="relative pt-24 pb-16 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(/hero-stadium-bg.jpg)',
+          backgroundImage: 'url(/hero-stadium-bg.webp)',
         }}
       >
         {/* Light overlay for better text readability while showing background */}
@@ -52,10 +52,10 @@ export default function Home() {
               {/* Badges */}
               <div className="flex gap-3">
                 <div className="bg-white p-2.5 rounded-xl shadow-lg hover:scale-105 transition-transform border border-gray-100">
-                  <img src="/badge-18plus.png" alt="18+" className="h-12 w-12" />
+                  <img src="/badge-18plus.webp" alt="18+" className="h-12 w-12" />
                 </div>
                 <div className="bg-white p-2.5 rounded-xl shadow-lg hover:scale-105 transition-transform border border-gray-100">
-                  <img src="/badge-fairplay.png" alt="Fair Play" className="h-12 w-12" />
+                  <img src="/badge-fairplay.webp" alt="Fair Play" className="h-12 w-12" />
                 </div>
               </div>
 
@@ -113,7 +113,7 @@ export default function Home() {
             <div className="relative">
               <div className="relative z-10">
                 <img 
-                  src="/hero-cricket-1.jpg" 
+                  src="/hero-cricket-1.webp" 
                   alt="Fantasy Cricket" 
                   className="rounded-2xl shadow-2xl border-4 border-white"
                 />

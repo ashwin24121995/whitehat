@@ -22,7 +22,7 @@ export default function HowToPlay() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-24 md:py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/howtoplay-hero.jpg)'}}>
+        <section className="relative py-24 md:py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/howtoplay-hero.webp)'}}>
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-teal-900/70 to-black/80"></div>
           <div className="container text-center relative z-10">
             <h1 className="text-4xl md:text-6xl font-black mb-6 drop-shadow-2xl">How To Play Fantasy Cricket</h1>

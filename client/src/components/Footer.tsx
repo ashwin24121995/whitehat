@@ -7,13 +7,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <img src="/logo-whitehat.png" alt="WHITEHAT INFOTECH" className="h-12 w-auto" />
+            <img src="/logo-whitehat.webp" alt="WHITEHAT INFOTECH" className="h-12 w-auto" />
             <p className="text-sm text-muted-foreground">
               Free-to-play fantasy cricket platform for education and entertainment.
             </p>
             <div className="flex gap-4">
-              <img src="/badge-18plus.png" alt="18+" className="h-12 w-12" />
-              <img src="/badge-fairplay.png" alt="Fair Play" className="h-12 w-12" />
+              <img src="/badge-18plus.webp" alt="18+" className="h-12 w-12" />
+              <img src="/badge-fairplay.webp" alt="Fair Play" className="h-12 w-12" />
             </div>
           </div>
 

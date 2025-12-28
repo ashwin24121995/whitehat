@@ -9,7 +9,7 @@ export default function About() {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/about-hero.jpg)'}}>
+      <section className="relative py-32 bg-cover bg-center text-white overflow-hidden" style={{backgroundImage: 'url(/about-hero.webp)'}}>
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-purple-900/70 to-black/80"></div>
         
         <div className="container relative z-10">
