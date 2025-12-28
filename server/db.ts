@@ -3,6 +3,8 @@ import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 import { InsertUser, users, passwordResetTokens } from "../drizzle/schema";
 
+// Database connection with SSL support for Railway MySQL (v1.1)
+
 let _db: ReturnType<typeof drizzle> | null = null;
 let _pool: mysql.Pool | null = null;
 
