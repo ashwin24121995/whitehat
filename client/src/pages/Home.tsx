@@ -10,8 +10,10 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { trpc } from "@/lib/trpc";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
+  const { t } = useLanguage();
   // Fetch matches from Cricket API
   const { data: matchesResponse, isLoading: matchesLoading } = trpc.matches.list.useQuery();
   
@@ -51,18 +53,18 @@ export default function Home() {
               {/* Headline */}
               <div className="space-y-3">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight">
-                  <span className="text-slate-900">Play Fantasy</span>
+                  <span className="text-slate-900">{t.hero.title.split(' ').slice(0, 2).join(' ')}</span>
                   <br />
-                  <span className="text-brand-gradient">Cricket Free</span>
+                  <span className="text-brand-gradient">{t.hero.title.split(' ').slice(2).join(' ')}</span>
                 </h1>
                 <p className="text-xl md:text-2xl font-semibold text-teal-600">
-                  100% Free • No Money • Pure Fun
+                  {t.hero.subtitle}
                 </p>
               </div>
 
               {/* Description */}
               <p className="text-base md:text-lg text-slate-600 leading-relaxed">
-                Build your dream cricket team, compete with other players, and climb the leaderboards—all without spending a single rupee!
+                {t.hero.description}
               </p>
 
               {/* CTA Buttons */}
@@ -70,13 +72,13 @@ export default function Home() {
                 <Link href="/register">
                   <Button size="lg" className="btn-brand text-lg px-8 py-6">
                     <Zap className="mr-2 h-5 w-5" />
-                    Start Playing Free
+                    {t.hero.startPlaying}
                   </Button>
                 </Link>
                 <Link href="/how-to-play">
                   <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-full border-2 border-teal-600 text-teal-600 hover:bg-teal-600 hover:text-white font-semibold">
                     <Target className="mr-2 h-5 w-5" />
-                    How It Works
+                    {t.hero.howItWorks}
                   </Button>
                 </Link>
               </div>
@@ -112,15 +114,15 @@ export default function Home() {
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div>
                     <div className="text-2xl font-black text-teal-600">100%</div>
-                    <div className="text-xs font-medium text-slate-600">Free</div>
+                    <div className="text-xs font-medium text-slate-600">{t.hero.free}</div>
                   </div>
                   <div>
                     <div className="text-2xl font-black text-teal-600">₹0</div>
-                    <div className="text-xs font-medium text-slate-600">Cost</div>
+                    <div className="text-xs font-medium text-slate-600">{t.hero.cost}</div>
                   </div>
                   <div>
                     <div className="text-2xl font-black text-teal-600">∞</div>
-                    <div className="text-xs font-medium text-slate-600">Fun</div>
+                    <div className="text-xs font-medium text-slate-600">{t.hero.fun}</div>
                   </div>
                 </div>
               </div>

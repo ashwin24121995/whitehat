@@ -5,9 +5,12 @@ import { trpc } from "@/lib/trpc";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Header() {
   const { user, isAuthenticated } = useAuth();
+  const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const logoutMutation = trpc.auth.logout.useMutation({
     onSuccess: () => {
@@ -34,43 +37,44 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-8">
             <Link href="/">
               <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                Home
+                {t.nav.home}
               </a>
             </Link>
             <Link href="/about">
               <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                About Us
+                {t.nav.aboutUs}
               </a>
             </Link>
             <Link href="/how-to-play">
               <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                How To Play
+                {t.nav.howToPlay}
               </a>
             </Link>
             <Link href="/faq">
               <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                FAQ
+                {t.nav.faq}
               </a>
             </Link>
             <Link href="/blog">
               <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                Blog
+                {t.nav.blog}
               </a>
             </Link>
             <Link href="/contact">
               <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                Contact
+                {t.nav.contact}
               </a>
             </Link>
           </nav>
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher />
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard">
                   <Button className="btn-primary">
-                    Dashboard
+                    {t.nav.profile}
                   </Button>
                 </Link>
                 <Button
@@ -79,19 +83,19 @@ export default function Header() {
                   disabled={logoutMutation.isPending}
                   className="rounded-full border-2 hover:bg-destructive hover:text-white hover:border-destructive"
                 >
-                  Logout
+                  {t.common.logout}
                 </Button>
               </>
             ) : (
               <>
                 <Link href="/login">
                   <Button variant="ghost" className="rounded-full font-semibold hover:text-primary">
-                    Login
+                    {t.common.login}
                   </Button>
                 </Link>
                 <Link href="/register">
                   <Button className="btn-secondary">
-                    Register
+                    {t.common.register}
                   </Button>
                 </Link>
               </>

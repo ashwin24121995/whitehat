@@ -1,0 +1,114 @@
+{
+  "common": {
+    "appName": "WHITEHAT Fantasy Cricket",
+    "tagline": "100% Free • No Money • Pure Fun",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close"
+  },
+  "nav": {
+    "home": "Home",
+    "aboutUs": "About Us",
+    "howToPlay": "How To Play",
+    "faq": "FAQ",
+    "blog": "Blog",
+    "contact": "Contact",
+    "matches": "Matches",
+    "myTeams": "My Teams",
+    "leaderboard": "Leaderboard",
+    "profile": "Profile"
+  },
+  "hero": {
+    "title": "Play Fantasy Cricket Free",
+    "subtitle": "100% Free • No Money • Pure Fun",
+    "description": "Build your dream cricket team, compete with other players, and climb the leaderboards—all without spending a single rupee!",
+    "startPlaying": "Start Playing Free",
+    "howItWorks": "How It Works",
+    "free": "Free",
+    "cost": "Cost",
+    "fun": "Fun"
+  },
+  "features": {
+    "title": "Why Choose WHITEHAT Fantasy Cricket?",
+    "subtitle": "Experience the thrill of fantasy cricket without any financial risk. Learn, compete, and enjoy!",
+    "freeToPlay": {
+      "title": "100% Free to Play",
+      "description": "No registration fees, no entry charges, no hidden costs. Play as much as you want without spending a single rupee."
+    },
+    "learnImprove": {
+      "title": "Learn & Improve",
+      "description": "Perfect platform for beginners to learn fantasy cricket strategies without financial pressure. Build your skills risk-free."
+    },
+    "realTimeUpdates": {
+      "title": "Real-Time Updates",
+      "description": "Get live match scores, player statistics, and fantasy points updated in real-time. Stay connected to every ball."
+    },
+    "compete": {
+      "title": "Compete & Win Glory",
+      "description": "Climb the leaderboards, compete with other players, and earn bragging rights. No money, just pure competition."
+    },
+    "safeSec": {
+      "title": "Safe & Secure",
+      "description": "Your data is protected with industry-standard security. No payment information required. Play with complete peace of mind."
+    },
+    "entertainment": {
+      "title": "Pure Entertainment",
+      "description": "Enjoy fantasy cricket for what it is—pure fun and entertainment. No stress about losing money, just enjoy the game."
+    }
+  },
+  "matches": {
+    "liveMatches": "Live Matches",
+    "upcomingMatches": "Upcoming Matches",
+    "completedMatches": "Completed Matches",
+    "noLiveMatches": "No live matches at the moment",
+    "noUpcomingMatches": "No upcoming matches",
+    "createTeam": "Create Team",
+    "viewDetails": "View Details",
+    "live": "LIVE"
+  },
+  "auth": {
+    "loginTitle": "Welcome Back",
+    "loginSubtitle": "Login to continue your fantasy cricket journey",
+    "registerTitle": "Create Account",
+    "registerSubtitle": "Join thousands of players enjoying free fantasy cricket",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "dateOfBirth": "Date of Birth",
+    "state": "State",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "ageRestriction": "You must be 18+ to register",
+    "stateRestriction": "Service not available in your state"
+  },
+  "footer": {
+    "about": "About",
+    "legal": "Legal",
+    "support": "Support",
+    "termsConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "fairPlayPolicy": "Fair Play Policy",
+    "responsibleGaming": "Responsible Gaming",
+    "contactUs": "Contact Us",
+    "copyright": "© 2024 WHITEHAT INFOTECH. All rights reserved.",
+    "disclaimer": "This is a free-to-play fantasy cricket platform. No real money is involved."
+  }
+}
