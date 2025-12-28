@@ -25,9 +25,8 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/">
-          <a className="flex items-center gap-3">
-            <img src="/logo-whitehat.png" alt="WHITEHAT INFOTECH" className="h-10 w-auto" />
-            <span className="hidden font-bold text-xl md:inline-block">WHITEHAT Fantasy Cricket</span>
+          <a className="flex items-center">
+            <img src="/logo-whitehat.png" alt="WHITEHAT Fantasy Cricket" className="h-12 w-auto" />
           </a>
         </Link>
 

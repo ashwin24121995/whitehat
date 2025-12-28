@@ -122,3 +122,6 @@
 
 ## Known Issues & Bugs
 (Track bugs here as they are discovered)
+
+## User Feedback & Improvements
+- [x] Remove redundant text from header - show only logo for cleaner design
