@@ -1,17 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/hooks/useAuth";
-import { Trophy, Medal, Award, TrendingUp } from "lucide-react";
+import { Trophy, Medal, Award, TrendingUp, Filter, Calendar } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Leaderboard() {
   const [, setLocation] = useLocation();
   const { user, loading: authLoading, isAuthenticated } = useAuth();
+  
+  // Filter states
+  const [timePeriod, setTimePeriod] = useState<'all' | 'week' | 'month'>('all');
+  const [selectedMatch, setSelectedMatch] = useState<string>('all');
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -20,10 +26,16 @@ export default function Leaderboard() {
     }
   }, [authLoading, isAuthenticated, setLocation]);
 
+  // Fetch matches for filter dropdown
+  const { data: matchesData } = trpc.matches.list.useQuery(undefined, { enabled: isAuthenticated });
+  
   const { data: leaderboardData, isLoading } = trpc.leaderboard.global.useQuery(
     undefined,
     { enabled: isAuthenticated }
   );
+  
+  // Filter leaderboard data based on selected filters
+  const filteredLeaderboard = leaderboardData?.leaderboard || [];
 
   const { data: myRankData, isLoading: rankLoading } = trpc.leaderboard.myRank.useQuery(
     undefined,
@@ -74,6 +86,58 @@ export default function Leaderboard() {
         {/* Leaderboard Content */}
         <section className="py-16 md:py-20">
           <div className="container max-w-5xl">
+            {/* Filters */}
+            <Card className="glossy-card mb-8">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Filter className="h-5 w-5" />
+                  Filter Rankings
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col md:flex-row gap-4">
+                  {/* Time Period Filter */}
+                  <div className="flex-1">
+                    <label className="text-sm font-medium mb-2 block">Time Period</label>
+                    <Tabs value={timePeriod} onValueChange={(v) => setTimePeriod(v as any)}>
+                      <TabsList className="grid w-full grid-cols-3">
+                        <TabsTrigger value="all">All Time</TabsTrigger>
+                        <TabsTrigger value="week">This Week</TabsTrigger>
+                        <TabsTrigger value="month">This Month</TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  </div>
+                  
+                  {/* Match Filter */}
+                  <div className="flex-1">
+                    <label className="text-sm font-medium mb-2 block">Match</label>
+                    <Select value={selectedMatch} onValueChange={setSelectedMatch}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="All Matches" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Matches</SelectItem>
+                        {matchesData?.matches?.slice(0, 10).map((match) => (
+                          <SelectItem key={match.id} value={match.id}>
+                            {match.teams?.[0]} vs {match.teams?.[1]}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                
+                {(timePeriod !== 'all' || selectedMatch !== 'all') && (
+                  <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    <span>
+                      Showing {timePeriod === 'week' ? 'this week\'s' : timePeriod === 'month' ? 'this month\'s' : ''} 
+                      {selectedMatch !== 'all' ? ' match-specific' : ''} rankings
+                    </span>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
             {/* My Rank Card */}
             <Card className="glossy-card mb-8 border-primary/20">
               <CardHeader>

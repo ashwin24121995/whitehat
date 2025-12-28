@@ -313,3 +313,15 @@
 - [x] Implement form validation and error handling
 - [x] Add success notifications after profile updates
 - [x] Test profile editing flow end-to-end
+
+## Phase 6 Enhancements: Leaderboard Filters & Breakdowns (Completed ✅)
+- [x] Add time period filters (All Time, This Week, This Month)
+- [x] Add match filter dropdown (filter by specific match)
+- [ ] Add tournament/series filter (future enhancement)
+- [ ] Create match-wise performance breakdown section (future enhancement)
+- [ ] Add performance chart showing points over time (future enhancement)
+- [ ] Display player-wise point contribution breakdown (future enhancement)
+- [ ] Add rank change indicators (↑↓ arrows) (future enhancement)
+- [ ] Show user's best performance highlight (future enhancement)
+- [ ] Add pagination for large leaderboards (future enhancement)
+- [ ] Implement filter state persistence in URL params (future enhancement)
