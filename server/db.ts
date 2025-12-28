@@ -11,61 +11,47 @@ export async function getDb() {
     try {
       const dbUrl = process.env.DATABASE_URL;
       console.log("[Database] Initializing connection...");
-      console.log("[Database] URL contains rlwy.net:", dbUrl.includes('rlwy.net'));
       
-      // For Railway MySQL or any rlwy.net connection, use connection pool with SSL
+      // For Railway MySQL, create connection with SSL
       if (dbUrl.includes('rlwy.net') || dbUrl.includes('railway')) {
-        console.log("[Database] Using Railway MySQL connection pool with SSL");
+        console.log("[Database] Using Railway MySQL with SSL");
         
-        // Parse the connection string
+        // Parse URL
         const url = new URL(dbUrl.replace('mysql://', 'http://'));
         
-        const poolConfig = {
+        // Create connection with SSL
+        const connection = mysql.createPool({
           host: url.hostname,
           port: parseInt(url.port) || 3306,
           user: url.username,
           password: url.password,
-          database: url.pathname.slice(1), // Remove leading slash
-          ssl: {
-            rejectUnauthorized: false
-          },
+          database: url.pathname.slice(1),
+          ssl: { rejectUnauthorized: false },
           waitForConnections: true,
           connectionLimit: 10,
           queueLimit: 0,
-          enableKeepAlive: true,
-          keepAliveInitialDelay: 0
-        };
-        
-        console.log("[Database] Pool config:", {
-          host: poolConfig.host,
-          port: poolConfig.port,
-          user: poolConfig.user,
-          database: poolConfig.database,
-          ssl: 'enabled'
         });
         
-        const connection = mysql.createPool(poolConfig);
+        console.log("[Database] Pool created, testing connection...");
         
-        // Test the connection
+        // Test connection
         try {
           const testConn = await connection.getConnection();
-          console.log("[Database] Connection test successful!");
+          console.log("[Database] ✅ Connection test successful!");
           testConn.release();
         } catch (testError) {
-          console.error("[Database] Connection test failed:", testError);
+          console.error("[Database] ❌ Connection test failed:", testError);
           throw testError;
         }
         
         _db = drizzle(connection);
-        console.log("[Database] Drizzle instance created successfully");
+        console.log("[Database] ✅ Drizzle instance created");
       } else {
         console.log("[Database] Using direct connection string");
-        // For other connections (like Manus internal DB), use connection string directly
         _db = drizzle(dbUrl);
       }
     } catch (error) {
-      console.error("[Database] Failed to connect:", error);
-      console.error("[Database] Error details:", error instanceof Error ? error.message : String(error));
+      console.error("[Database] Failed to initialize:", error);
       _db = null;
     }
   }
