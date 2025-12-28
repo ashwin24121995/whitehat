@@ -405,3 +405,20 @@
 - [ ] Fix team logos not displaying in live match cards
 - [ ] Verify all images are properly deployed to production
 - [ ] Test after GitHub push and deployment
+
+
+## CRITICAL: Fix Registration API Issue (Production) 🔴
+- [ ] Test registration on local dev server to verify it works
+- [ ] Compare local vs production environment configurations
+- [ ] Check production server logs for errors
+- [ ] Verify Railway MySQL database connection on production
+- [ ] Check if environment variables are properly set on production
+- [ ] Fix SSL/TLS connection error (error:0A000126)
+- [ ] Add better error handling and user feedback to registration form
+- [ ] Add loading spinner during form submission
+- [ ] Test registration API endpoint directly
+- [ ] Verify registration works end-to-end on production
+- [ ] Test login flow after successful registration
+- [ ] Test team creation flow after login
+- [ ] Test leaderboard access after login
+- [ ] Test profile settings after login

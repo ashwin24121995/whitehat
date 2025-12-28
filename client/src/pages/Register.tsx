@@ -181,7 +181,9 @@ export default function Register() {
   const updateField = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
     if (errors[field]) {
-      setErrors({ ...errors, [field]: undefined });
+      const newErrors = { ...errors };
+      delete newErrors[field];
+      setErrors(newErrors);
     }
   };
 
@@ -416,7 +418,11 @@ export default function Register() {
                     checked={agreedToTerms}
                     onCheckedChange={(checked) => {
                       setAgreedToTerms(checked as boolean);
-                      if (errors.terms) setErrors({ ...errors, terms: undefined });
+                      if (errors.terms) {
+                        const newErrors = { ...errors };
+                        delete newErrors.terms;
+                        setErrors(newErrors);
+                      }
                     }}
                     disabled={registerMutation.isPending}
                   />
