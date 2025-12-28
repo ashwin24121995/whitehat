@@ -424,3 +424,12 @@
 - [ ] Test profile settings after login
 - [x] Add favicon to website
 - [ ] Fix Drizzle ORM to work with Railway MySQL (registration failing)
+
+## Complete User Journey Testing (User Request - Dec 29, 2025)
+- [ ] Complete user registration test on production
+- [ ] Test login functionality with registered user
+- [ ] Test viewing live and upcoming matches
+- [ ] Test team creation flow (select players, save team)
+- [ ] Test leaderboard display and rankings
+- [ ] Verify all features work end-to-end like a real user would experience
+- [x] Fix header navigation to show Matches, Leaderboard, Profile after login

@@ -44,36 +44,55 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="/">
-              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                {t.nav.home}
-              </a>
-            </Link>
-            <Link href="/about">
-              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                {t.nav.aboutUs}
-              </a>
-            </Link>
-            <Link href="/how-to-play">
-              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                {t.nav.howToPlay}
-              </a>
-            </Link>
-            <Link href="/faq">
-              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                {t.nav.faq}
-              </a>
-            </Link>
-            <Link href="/blog">
-              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                {t.nav.blog}
-              </a>
-            </Link>
-            <Link href="/contact">
-              <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
-                {t.nav.contact}
-              </a>
-            </Link>
+            {isAuthenticated ? (
+              // Authenticated user navigation
+              <>
+                <Link href="/matches">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    Matches
+                  </a>
+                </Link>
+                <Link href="/leaderboard">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    Leaderboard
+                  </a>
+                </Link>
+              </>
+            ) : (
+              // Public navigation
+              <>
+                <Link href="/">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    {t.nav.home}
+                  </a>
+                </Link>
+                <Link href="/about">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    {t.nav.aboutUs}
+                  </a>
+                </Link>
+                <Link href="/how-to-play">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    {t.nav.howToPlay}
+                  </a>
+                </Link>
+                <Link href="/faq">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    {t.nav.faq}
+                  </a>
+                </Link>
+                <Link href="/blog">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    {t.nav.blog}
+                  </a>
+                </Link>
+                <Link href="/contact">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    {t.nav.contact}
+                  </a>
+                </Link>
+              </>
+            )}
           </nav>
 
           {/* Desktop Auth Buttons */}
@@ -161,36 +180,55 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden py-6 border-t border-border animate-fade-in-up">
             <nav className="flex flex-col gap-4">
-              <Link href="/">
-                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Home
-                </a>
-              </Link>
-              <Link href="/about">
-                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  About Us
-                </a>
-              </Link>
-              <Link href="/how-to-play">
-                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  How To Play
-                </a>
-              </Link>
-              <Link href="/faq">
-                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  FAQ
-                </a>
-              </Link>
-              <Link href="/blog">
-                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Blog
-                </a>
-              </Link>
-              <Link href="/contact">
-                <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Contact
-                </a>
-              </Link>
+              {isAuthenticated ? (
+                // Authenticated mobile navigation
+                <>
+                  <Link href="/matches">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      Matches
+                    </a>
+                  </Link>
+                  <Link href="/leaderboard">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      Leaderboard
+                    </a>
+                  </Link>
+                </>
+              ) : (
+                // Public mobile navigation
+                <>
+                  <Link href="/">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      Home
+                    </a>
+                  </Link>
+                  <Link href="/about">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      About Us
+                    </a>
+                  </Link>
+                  <Link href="/how-to-play">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      How To Play
+                    </a>
+                  </Link>
+                  <Link href="/faq">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      FAQ
+                    </a>
+                  </Link>
+                  <Link href="/blog">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      Blog
+                    </a>
+                  </Link>
+                  <Link href="/contact">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      Contact
+                    </a>
+                  </Link>
+                </>
+              )}
               
               <div className="flex flex-col gap-3 pt-4 border-t border-border">
                 {isAuthenticated ? (
