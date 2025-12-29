@@ -434,3 +434,4 @@
 - [ ] Verify all features work end-to-end like a real user would experience
 - [x] Fix header navigation to show Matches, Leaderboard, Profile after login
 - [x] Fix matches page to display live and upcoming matches from Cricket API
+- [x] Redesign About page with deep detailed content matching cricket theme
