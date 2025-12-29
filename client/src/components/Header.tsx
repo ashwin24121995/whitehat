@@ -66,6 +66,11 @@ export default function Header() {
                     {t.nav.home}
                   </a>
                 </Link>
+                <Link href="/matches">
+                  <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
+                    Matches
+                  </a>
+                </Link>
                 <Link href="/about">
                   <a className="text-slate-700 hover:text-teal-600 font-medium transition-colors">
                     {t.nav.aboutUs}
@@ -200,6 +205,11 @@ export default function Header() {
                   <Link href="/">
                     <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
                       Home
+                    </a>
+                  </Link>
+                  <Link href="/matches">
+                    <a className="text-slate-700 hover:text-teal-600 font-medium py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                      Matches
                     </a>
                   </Link>
                   <Link href="/about">

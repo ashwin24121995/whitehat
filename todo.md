@@ -486,3 +486,13 @@
 - [x] Update gradient background for better readability
 - [x] Test on both light and dark backgrounds
 - [ ] Verify text is clearly visible on Railway deployment
+
+## Home Page Matches & Navigation (User Request - December 2024)
+- [x] Add upcoming matches section to home page (already exists, shows when API has data)
+- [x] Add live matches section to home page (already exists, shows when API has data)
+- [x] Show match cards with team names, logos, and timing
+- [x] Add "View All Matches" button linking to /matches page
+- [x] Improve header navigation to highlight Matches link (added to public nav)
+- [x] Add prominent CTA buttons on hero section linking to matches
+- [x] Test matches display on home page
+- [ ] Push to GitHub for Railway deployment

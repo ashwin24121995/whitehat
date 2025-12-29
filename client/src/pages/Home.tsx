@@ -84,6 +84,12 @@ export default function Home() {
                     {t.hero.startPlaying}
                   </Button>
                 </Link>
+                <Link href="/matches">
+                  <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-full border-2 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-semibold">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    View Matches
+                  </Button>
+                </Link>
                 <Link href="/how-to-play">
                   <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-full border-2 border-teal-600 text-teal-600 hover:bg-teal-600 hover:text-white font-semibold">
                     <Target className="mr-2 h-5 w-5" />
