@@ -459,3 +459,14 @@
 - [x] Add search results counter
 - [x] Add clear search button
 - [x] Test search functionality across all sections
+
+## Terms & Conditions Page Redesign (User Request - December 2024)
+- [x] Redesign Terms & Conditions page with deep detailed legal content
+- [x] Add comprehensive sections (12+ sections covering all legal aspects)
+- [x] Include table of contents with interactive navigation
+- [x] Add color-coded sections matching design system
+- [x] Implement search functionality like Privacy Policy page
+- [x] Add professional legal/compliance theme design
+- [x] Include user agreement, platform rules, liability, dispute resolution
+- [x] Add intellectual property, prohibited conduct, termination sections
+- [x] Test design and functionality across all devices
