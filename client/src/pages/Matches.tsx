@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
-import { Calendar, MapPin, Clock, Trophy, AlertCircle } from "lucide-react";
+import { Calendar, MapPin, Clock, Trophy, AlertCircle, Play, CheckCircle2, TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -20,130 +21,289 @@ export default function Matches() {
   const liveMatches = matchesData?.matches.filter(m => m.status === 'live') || [];
   const completedMatches = matchesData?.matches.filter(m => m.status === 'completed') || [];
 
+  // Helper function to get status badge
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'live':
+        return <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white animate-pulse">🔴 LIVE</Badge>;
+      case 'upcoming':
+        return <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white">📅 Upcoming</Badge>;
+      case 'completed':
+        return <Badge className="bg-gradient-to-r from-gray-500 to-slate-500 text-white">✓ Completed</Badge>;
+      default:
+        return null;
+    }
+  };
+
+  // Render match card
+  const renderMatchCard = (match: any, showCreateTeam = false) => (
+    <Card 
+      key={match.id} 
+      className="group relative overflow-hidden border-2 hover:border-teal-400 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] bg-gradient-to-br from-white to-blue-50/30"
+    >
+      {/* Top gradient accent */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500"></div>
+      
+      <CardContent className="p-6">
+        {/* Header with match name and status */}
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-teal-600 transition-colors">
+              {match.name}
+            </h3>
+            {match.matchType && (
+              <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-semibold">
+                {match.matchType}
+              </span>
+            )}
+          </div>
+          <div>
+            {getStatusBadge(match.status)}
+          </div>
+        </div>
+
+        {/* Venue */}
+        <div className="flex items-center gap-2 text-sm text-slate-600 mb-4">
+          <MapPin className="h-4 w-4 text-teal-600" />
+          <span className="font-medium">{match.venue}</span>
+        </div>
+
+        {/* Teams Section */}
+        <div className="bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl p-4 mb-4 border border-slate-200">
+          <div className="flex justify-between items-center">
+            {/* Team 1 */}
+            <div className="flex-1 text-center">
+              <div className="mb-3">
+                {match.teamInfo?.[0]?.img ? (
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 bg-teal-400 rounded-full blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <img 
+                      src={match.teamInfo[0].img} 
+                      alt={match.teams[0]}
+                      className="relative h-16 w-16 object-contain drop-shadow-lg"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-16 w-16 mx-auto bg-gradient-to-br from-teal-400 to-blue-500 rounded-full flex items-center justify-center">
+                    <Trophy className="h-8 w-8 text-white" />
+                  </div>
+                )}
+              </div>
+              <p className="font-bold text-slate-900 text-sm mb-1">
+                {match.teamInfo?.[0]?.shortname || match.teams[0]}
+              </p>
+              {match.score?.[0] && (
+                <div className="text-lg font-black text-teal-600">
+                  {match.score[0].r}/{match.score[0].w}
+                  <span className="text-xs text-slate-600 ml-1">({match.score[0].o} ov)</span>
+                </div>
+              )}
+            </div>
+
+            {/* VS Divider */}
+            <div className="px-4">
+              <div className="bg-gradient-to-r from-teal-500 to-blue-500 text-white rounded-full h-10 w-10 flex items-center justify-center font-bold text-sm shadow-lg">
+                VS
+              </div>
+            </div>
+
+            {/* Team 2 */}
+            <div className="flex-1 text-center">
+              <div className="mb-3">
+                {match.teamInfo?.[1]?.img ? (
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 bg-purple-400 rounded-full blur-md opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <img 
+                      src={match.teamInfo[1].img} 
+                      alt={match.teams[1]}
+                      className="relative h-16 w-16 object-contain drop-shadow-lg"
+                    />
+                  </div>
+                ) : (
+                  <div className="h-16 w-16 mx-auto bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center">
+                    <Trophy className="h-8 w-8 text-white" />
+                  </div>
+                )}
+              </div>
+              <p className="font-bold text-slate-900 text-sm mb-1">
+                {match.teamInfo?.[1]?.shortname || match.teams[1]}
+              </p>
+              {match.score?.[1] && (
+                <div className="text-lg font-black text-purple-600">
+                  {match.score[1].r}/{match.score[1].w}
+                  <span className="text-xs text-slate-600 ml-1">({match.score[1].o} ov)</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Match Result */}
+          {match.status === 'completed' && match.matchWinner && (
+            <div className="mt-4 pt-4 border-t border-slate-200">
+              <div className="flex items-center justify-center gap-2 text-sm">
+                <Trophy className="h-4 w-4 text-yellow-600" />
+                <span className="font-semibold text-slate-900">{match.matchWinner}</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Match Details */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="flex items-center gap-2 text-xs text-slate-600 bg-white rounded-lg p-2 border border-slate-200">
+            <Calendar className="h-4 w-4 text-teal-600 flex-shrink-0" />
+            <span className="truncate">{match.date || 'Date TBA'}</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-slate-600 bg-white rounded-lg p-2 border border-slate-200">
+            <Clock className="h-4 w-4 text-purple-600 flex-shrink-0" />
+            <span className="truncate">{match.dateTimeGMT ? new Date(match.dateTimeGMT).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Time TBA'}</span>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            className="flex-1 border-2 hover:bg-slate-50"
+            onClick={() => setLocation(`/matches/${match.id}`)}
+          >
+            View Details
+          </Button>
+          
+          {showCreateTeam && match.availableForTeamCreation && (
+            <Button 
+              className="flex-1 bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+              onClick={() => setLocation(`/matches/${match.id}/create-team`)}
+            >
+              <TrendingUp className="h-4 w-4 mr-2" />
+              Create Team
+            </Button>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-50 to-white">
       <Header />
       
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="py-16 md:py-20 gradient-cricket text-white relative overflow-hidden">
-          {/* Background overlay for better text contrast */}
-          <div className="absolute inset-0 bg-black/30"></div>
+        {/* Enhanced Hero Section with Cricket Stadium Background */}
+        <section 
+          className="relative py-20 md:py-28 overflow-hidden"
+          style={{
+            backgroundImage: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          }}
+        >
+          {/* Animated background pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            }}></div>
+          </div>
+
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
           
-          <div className="container text-center relative z-10">
-            <Trophy className="h-16 w-16 mx-auto mb-6 drop-shadow-lg" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">Cricket Matches</h1>
-            <p className="text-xl text-white max-w-3xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-              View recent match results, create teams for upcoming matches, and track live scores
+          <div className="container relative z-10 text-center">
+            {/* Icon */}
+            <div className="mb-6 inline-block">
+              <div className="relative">
+                <div className="absolute inset-0 bg-white rounded-full blur-2xl opacity-30"></div>
+                <Trophy className="relative h-20 w-20 text-white drop-shadow-2xl mx-auto" />
+              </div>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-5xl md:text-6xl font-black text-white mb-6 drop-shadow-2xl">
+              Cricket Matches
+            </h1>
+            
+            {/* Subtitle */}
+            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8 drop-shadow-lg">
+              View live scores, create fantasy teams, and track match results
             </p>
+
+            {/* Stats Cards */}
+            <div className="flex justify-center gap-4 flex-wrap max-w-2xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-xl px-6 py-3 border border-white/20">
+                <div className="flex items-center gap-2">
+                  <Play className="h-5 w-5 text-red-300" />
+                  <span className="text-white font-semibold">{liveMatches.length} Live</span>
+                </div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-xl px-6 py-3 border border-white/20">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-blue-300" />
+                  <span className="text-white font-semibold">{upcomingMatches.length} Upcoming</span>
+                </div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-xl px-6 py-3 border border-white/20">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-green-300" />
+                  <span className="text-white font-semibold">{completedMatches.length} Recent</span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Matches Content */}
         <section className="py-16 md:py-20">
-          <div className="container max-w-6xl">
+          <div className="container max-w-7xl">
             {error && (
-              <Alert variant="destructive" className="mb-6">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
+              <Alert variant="destructive" className="mb-8 border-2">
+                <AlertCircle className="h-5 w-5" />
+                <AlertDescription className="text-base">
                   Failed to load matches. Please try again later.
                 </AlertDescription>
               </Alert>
             )}
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-8">
-                <TabsTrigger value="upcoming">
-                  Upcoming ({upcomingMatches.length})
+              {/* Enhanced Tab List */}
+              <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 mb-12 h-14 bg-slate-100 p-1 rounded-xl">
+                <TabsTrigger 
+                  value="upcoming" 
+                  className="text-base font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white rounded-lg"
+                >
+                  📅 Upcoming ({upcomingMatches.length})
                 </TabsTrigger>
-                <TabsTrigger value="live">
-                  Live ({liveMatches.length})
+                <TabsTrigger 
+                  value="live"
+                  className="text-base font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500 data-[state=active]:to-pink-500 data-[state=active]:text-white rounded-lg"
+                >
+                  🔴 Live ({liveMatches.length})
                 </TabsTrigger>
-                <TabsTrigger value="recent">
-                  Recent ({completedMatches.length})
+                <TabsTrigger 
+                  value="recent"
+                  className="text-base font-semibold data-[state=active]:bg-gradient-to-r data-[state=active]:from-slate-600 data-[state=active]:to-slate-700 data-[state=active]:text-white rounded-lg"
+                >
+                  ✓ Recent ({completedMatches.length})
                 </TabsTrigger>
               </TabsList>
 
               {/* Upcoming Matches Tab */}
-              <TabsContent value="upcoming">
+              <TabsContent value="upcoming" className="mt-0">
                 {isLoading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[1, 2, 3, 4].map(i => (
-                      <Skeleton key={i} className="h-64 w-full" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map(i => (
+                      <Skeleton key={i} className="h-96 w-full rounded-xl" />
                     ))}
                   </div>
                 ) : upcomingMatches.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {upcomingMatches.map(match => (
-                      <Card key={match.id} className="glossy-card hover:shadow-lg transition-shadow">
-                        <CardHeader>
-                          <div className="flex justify-between items-start mb-2">
-                            <CardTitle className="text-xl">{match.name}</CardTitle>
-                            {match.matchType && (
-                              <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                                {match.matchType}
-                              </span>
-                            )}
-                          </div>
-                          <CardDescription className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4" />
-                            {match.venue}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="space-y-4">
-                            {/* Teams */}
-                            <div className="flex justify-between items-center py-3 border-y">
-                              {match.teams.map((team, idx) => (
-                                <div key={idx} className="text-center flex-1">
-                                  {match.teamInfo?.[idx]?.img && (
-                                    <img 
-                                      src={match.teamInfo[idx].img} 
-                                      alt={team}
-                                      className="h-12 w-12 mx-auto mb-2 object-contain"
-                                    />
-                                  )}
-                                  <p className="font-semibold">{match.teamInfo?.[idx]?.shortname || team}</p>
-                                </div>
-                              ))}
-                            </div>
-
-                            {/* Match Info */}
-                            <div className="space-y-2 text-sm text-muted-foreground">
-                              <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4" />
-                                <span>{match.date}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Clock className="h-4 w-4" />
-                                <span>{match.dateTimeGMT}</span>
-                              </div>
-                            </div>
-
-                            {/* Action Button */}
-                            {match.availableForTeamCreation ? (
-                              <Button 
-                                className="w-full gradient-cricket" 
-                                onClick={() => setLocation(`/matches/${match.id}/create-team`)}
-                              >
-                                Create Fantasy Team
-                              </Button>
-                            ) : (
-                              <Button variant="outline" className="w-full" disabled>
-                                {match.hasSquad ? 'Team Creation Locked' : 'Squad Not Available'}
-                              </Button>
-                            )}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {upcomingMatches.map(match => renderMatchCard(match, true))}
                   </div>
                 ) : (
-                  <Card className="glossy-card">
-                    <CardContent className="pt-12 pb-12 text-center">
-                      <Calendar className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-                      <h3 className="text-xl font-semibold mb-2">No Upcoming Matches</h3>
-                      <p className="text-muted-foreground">
+                  <Card className="border-2 border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-blue-50/30">
+                    <CardContent className="pt-16 pb-16 text-center">
+                      <div className="mb-6 inline-block">
+                        <Calendar className="h-20 w-20 text-slate-300" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">No Upcoming Matches</h3>
+                      <p className="text-slate-600 text-lg max-w-md mx-auto">
                         Check back soon for new matches to create your fantasy teams!
                       </p>
                     </CardContent>
@@ -152,85 +312,26 @@ export default function Matches() {
               </TabsContent>
 
               {/* Live Matches Tab */}
-              <TabsContent value="live">
+              <TabsContent value="live" className="mt-0">
                 {isLoading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[1, 2].map(i => (
-                      <Skeleton key={i} className="h-64 w-full" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map(i => (
+                      <Skeleton key={i} className="h-96 w-full rounded-xl" />
                     ))}
                   </div>
                 ) : liveMatches.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {liveMatches.map(match => (
-                      <Card key={match.id} className="glossy-card hover:shadow-lg transition-shadow border-red-500/20">
-                        <CardHeader>
-                          <div className="flex justify-between items-start mb-2">
-                            <CardTitle className="text-xl">{match.name}</CardTitle>
-                            <span className="text-xs bg-red-500 text-white px-3 py-1 rounded-full animate-pulse flex items-center gap-1">
-                              <div className="h-2 w-2 bg-white rounded-full"></div>
-                              LIVE
-                            </span>
-                          </div>
-                          <CardDescription className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4" />
-                            {match.venue}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="space-y-4">
-                            {/* Teams with Scores */}
-                            <div className="space-y-3 py-3 border-y">
-                              {match.teams.map((team, idx) => (
-                                <div key={idx} className="flex justify-between items-center">
-                                  <div className="flex items-center gap-3">
-                                    {match.teamInfo?.[idx]?.img && (
-                                      <img 
-                                        src={match.teamInfo[idx].img} 
-                                        alt={team}
-                                        className="h-10 w-10 object-contain"
-                                      />
-                                    )}
-                                    <span className="font-semibold">{match.teamInfo?.[idx]?.shortname || team}</span>
-                                  </div>
-                                  {match.score?.[idx] && (
-                                    <div className="text-right">
-                                      <p className="font-bold text-lg">
-                                        {match.score[idx].r}/{match.score[idx].w}
-                                      </p>
-                                      <p className="text-xs text-muted-foreground">
-                                        ({match.score[idx].o} overs)
-                                      </p>
-                                    </div>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-
-                            {/* Match Status */}
-                            <div className="text-sm text-center text-muted-foreground">
-                              {match.status}
-                            </div>
-
-                            {/* View Details Button */}
-                            <Button 
-                              variant="outline" 
-                              className="w-full"
-                              onClick={() => setLocation(`/matches/${match.id}`)}
-                            >
-                              View Match Details
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {liveMatches.map(match => renderMatchCard(match))}
                   </div>
                 ) : (
-                  <Card className="glossy-card">
-                    <CardContent className="pt-12 pb-12 text-center">
-                      <Clock className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-                      <h3 className="text-xl font-semibold mb-2">No Live Matches</h3>
-                      <p className="text-muted-foreground">
-                        There are no matches being played right now. Check back during match hours!
+                  <Card className="border-2 border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-red-50/30">
+                    <CardContent className="pt-16 pb-16 text-center">
+                      <div className="mb-6 inline-block">
+                        <Play className="h-20 w-20 text-slate-300" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">No Live Matches</h3>
+                      <p className="text-slate-600 text-lg max-w-md mx-auto">
+                        Live matches will appear here when they start. Check upcoming matches!
                       </p>
                     </CardContent>
                   </Card>
@@ -238,83 +339,25 @@ export default function Matches() {
               </TabsContent>
 
               {/* Recent Matches Tab */}
-              <TabsContent value="recent">
+              <TabsContent value="recent" className="mt-0">
                 {isLoading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {[1, 2, 3, 4].map(i => (
-                      <Skeleton key={i} className="h-64 w-full" />
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map(i => (
+                      <Skeleton key={i} className="h-96 w-full rounded-xl" />
                     ))}
                   </div>
                 ) : completedMatches.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {completedMatches.map(match => (
-                      <Card key={match.id} className="glossy-card hover:shadow-lg transition-shadow">
-                        <CardHeader>
-                          <div className="flex justify-between items-start mb-2">
-                            <CardTitle className="text-xl">{match.name}</CardTitle>
-                            <span className="text-xs bg-gray-500 text-white px-2 py-1 rounded-full">
-                              Completed
-                            </span>
-                          </div>
-                          <CardDescription className="flex items-center gap-2">
-                            <MapPin className="h-4 w-4" />
-                            {match.venue}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="space-y-4">
-                            {/* Teams with Final Scores */}
-                            <div className="space-y-3 py-3 border-y">
-                              {match.teams.map((team, idx) => (
-                                <div key={idx} className="flex justify-between items-center">
-                                  <div className="flex items-center gap-3">
-                                    {match.teamInfo?.[idx]?.img && (
-                                      <img 
-                                        src={match.teamInfo[idx].img} 
-                                        alt={team}
-                                        className="h-10 w-10 object-contain"
-                                      />
-                                    )}
-                                    <span className="font-semibold">{match.teamInfo?.[idx]?.shortname || team}</span>
-                                  </div>
-                                  {match.score?.[idx] && (
-                                    <div className="text-right">
-                                      <p className="font-bold text-lg">
-                                        {match.score[idx].r}/{match.score[idx].w}
-                                      </p>
-                                      <p className="text-xs text-muted-foreground">
-                                        ({match.score[idx].o} overs)
-                                      </p>
-                                    </div>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-
-                            {/* Match Result */}
-                            <div className="text-sm text-center font-medium text-primary">
-                              {match.status}
-                            </div>
-
-                            {/* View Details Button */}
-                            <Button 
-                              variant="outline" 
-                              className="w-full"
-                              onClick={() => setLocation(`/matches/${match.id}`)}
-                            >
-                              View Match Details
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {completedMatches.map(match => renderMatchCard(match))}
                   </div>
                 ) : (
-                  <Card className="glossy-card">
-                    <CardContent className="pt-12 pb-12 text-center">
-                      <Trophy className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-                      <h3 className="text-xl font-semibold mb-2">No Recent Matches</h3>
-                      <p className="text-muted-foreground">
+                  <Card className="border-2 border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-slate-100">
+                    <CardContent className="pt-16 pb-16 text-center">
+                      <div className="mb-6 inline-block">
+                        <CheckCircle2 className="h-20 w-20 text-slate-300" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-900 mb-3">No Recent Matches</h3>
+                      <p className="text-slate-600 text-lg max-w-md mx-auto">
                         Completed matches will appear here once they finish.
                       </p>
                     </CardContent>
