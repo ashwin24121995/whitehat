@@ -495,4 +495,4 @@
 - [x] Improve header navigation to highlight Matches link (added to public nav)
 - [x] Add prominent CTA buttons on hero section linking to matches
 - [x] Test matches display on home page
-- [ ] Push to GitHub for Railway deployment
+- [x] Push to GitHub for Railway deployment
