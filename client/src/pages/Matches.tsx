@@ -26,11 +26,14 @@ export default function Matches() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="py-16 md:py-20 gradient-cricket text-white">
-          <div className="container text-center">
-            <Trophy className="h-16 w-16 mx-auto mb-6" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Cricket Matches</h1>
-            <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+        <section className="py-16 md:py-20 gradient-cricket text-white relative overflow-hidden">
+          {/* Background overlay for better text contrast */}
+          <div className="absolute inset-0 bg-black/30"></div>
+          
+          <div className="container text-center relative z-10">
+            <Trophy className="h-16 w-16 mx-auto mb-6 drop-shadow-lg" />
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">Cricket Matches</h1>
+            <p className="text-xl text-white max-w-3xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
               View recent match results, create teams for upcoming matches, and track live scores
             </p>
           </div>
