@@ -107,11 +107,20 @@ export async function getCurrentMatches(): Promise<Match[]> {
     );
 
     if (response.data.status === "success" && response.data.data) {
-      // Filter matches: show only today's and future matches, exclude completed
-      const now = new Date();
+      // Filter matches: show only upcoming and live matches, exclude completed
       return response.data.data.filter(match => {
-        const matchDate = new Date(match.dateTimeGMT);
-        return matchDate >= now || match.matchStarted || !match.matchEnded;
+        // Exclude completed matches
+        if (match.matchEnded) {
+          return false;
+        }
+        
+        // Include live matches
+        if (match.matchStarted && !match.matchEnded) {
+          return true;
+        }
+        
+        // Include upcoming matches (not started yet)
+        return !match.matchStarted;
       });
     }
 
