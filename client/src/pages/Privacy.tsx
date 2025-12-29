@@ -1,9 +1,40 @@
 import Header from "@/components/Header";
+import { useState, useEffect } from "react";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Shield, Lock, Eye, Database, UserCheck, FileText, Globe, Bell, Trash2, Download, AlertTriangle, Mail } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Shield, Lock, Eye, Database, UserCheck, FileText, Globe, Bell, Trash2, Download, AlertTriangle, Mail, Search, X } from "lucide-react";
 
 export default function Privacy() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<number>(0);
+  const [highlightedText, setHighlightedText] = useState<string>("");
+
+  // Search functionality
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      setHighlightedText(searchQuery.trim());
+      // Count matches in the page content
+      const content = document.getElementById('privacy-content');
+      if (content) {
+        const text = content.innerText.toLowerCase();
+        const query = searchQuery.toLowerCase();
+        const matches = (text.match(new RegExp(query, 'g')) || []).length;
+        setSearchResults(matches);
+      }
+    } else {
+      setHighlightedText("");
+      setSearchResults(0);
+    }
+  }, [searchQuery]);
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setHighlightedText("");
+    setSearchResults(0);
+  };
+
   const sections = [
     {
       id: "introduction",
@@ -1179,8 +1210,56 @@ export default function Privacy() {
           </div>
         </section>
 
+        {/* Search Bar */}
+        <section className="py-8 bg-gradient-to-b from-white to-slate-50">
+          <div className="container">
+            <div className="max-w-3xl mx-auto">
+              <Card className="border-2 border-teal-200 shadow-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+                      <Input
+                        type="text"
+                        placeholder="Search privacy policy... (e.g., 'cookies', 'data collection', 'GDPR')"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10 pr-10 h-12 text-base border-2 border-slate-300 focus:border-teal-500 focus:ring-teal-500"
+                      />
+                      {searchQuery && (
+                        <button
+                          onClick={clearSearch}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                          <X className="h-5 w-5" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  {searchQuery && (
+                    <div className="mt-3 text-sm text-slate-600">
+                      {searchResults > 0 ? (
+                        <p className="flex items-center gap-2">
+                          <span className="inline-flex items-center justify-center h-6 w-6 bg-teal-100 text-teal-700 rounded-full font-semibold text-xs">
+                            {searchResults}
+                          </span>
+                          <span>
+                            {searchResults === 1 ? '1 match found' : `${searchResults} matches found`} for "{searchQuery}"
+                          </span>
+                        </p>
+                      ) : (
+                        <p className="text-amber-600">No matches found for "{searchQuery}". Try different keywords.</p>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* Table of Contents */}
-        <section className="py-12 bg-gradient-to-b from-white to-slate-50">
+        <section className="py-12 bg-gradient-to-b from-slate-50 to-slate-100">
           <div className="container">
             <div className="max-w-5xl mx-auto">
               <Card className="border-2 border-slate-200 shadow-xl">
@@ -1223,7 +1302,7 @@ export default function Privacy() {
         {/* Privacy Policy Content */}
         <section className="py-16 bg-slate-50">
           <div className="container">
-            <div className="max-w-5xl mx-auto space-y-12">
+            <div id="privacy-content" className="max-w-5xl mx-auto space-y-12">
               {sections.map((section, idx) => {
                 const Icon = section.icon;
                 const colors = colorClasses[section.color as keyof typeof colorClasses];
