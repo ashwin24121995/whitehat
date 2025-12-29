@@ -508,4 +508,4 @@
 - [x] Improve typography and spacing
 - [x] Add hover effects and animations (scale, border color changes)
 - [x] Test redesigned page
-- [x] Push to GitHub for Railway deployment
+- [ ] Push to GitHub for Railway deployment
