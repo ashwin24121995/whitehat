@@ -246,6 +246,107 @@ export default function Matches() {
                 </div>
               </div>
             </div>
+
+            {/* Live Match Score Widget */}
+            {liveMatches.length > 0 && (
+              <div className="mt-8 max-w-4xl mx-auto">
+                <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border-2 border-white/30 p-6 animate-pulse-slow">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="h-3 w-3 bg-red-500 rounded-full animate-pulse"></div>
+                      <span className="text-red-600 font-bold text-sm uppercase tracking-wide">LIVE NOW</span>
+                    </div>
+                    <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white">🔴 LIVE</Badge>
+                  </div>
+                  
+                  {liveMatches.slice(0, 1).map(match => (
+                    <div key={match.id}>
+                      {/* Match Name */}
+                      <h3 className="text-lg font-bold text-slate-900 mb-4 text-center">
+                        {match.name}
+                      </h3>
+                      
+                      {/* Teams and Scores */}
+                      <div className="grid grid-cols-3 gap-4 items-center">
+                        {/* Team 1 */}
+                        <div className="text-center">
+                          {match.teamInfo?.[0]?.img ? (
+                            <img 
+                              src={match.teamInfo[0].img} 
+                              alt={match.teams[0]}
+                              className="h-12 w-12 mx-auto object-contain mb-2"
+                            />
+                          ) : (
+                            <div className="h-12 w-12 mx-auto bg-gradient-to-br from-teal-400 to-blue-500 rounded-full flex items-center justify-center mb-2">
+                              <Trophy className="h-6 w-6 text-white" />
+                            </div>
+                          )}
+                          <p className="font-bold text-slate-900 text-sm mb-1">
+                            {match.teamInfo?.[0]?.shortname || match.teams[0]}
+                          </p>
+                          {match.score?.[0] && (
+                            <div className="text-2xl font-black text-teal-600">
+                              {match.score[0].r}/{match.score[0].w}
+                              <div className="text-xs text-slate-600">({match.score[0].o} ov)</div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* VS Divider */}
+                        <div className="flex flex-col items-center">
+                          <div className="h-12 w-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                            <span className="text-white font-black text-sm">VS</span>
+                          </div>
+                        </div>
+
+                        {/* Team 2 */}
+                        <div className="text-center">
+                          {match.teamInfo?.[1]?.img ? (
+                            <img 
+                              src={match.teamInfo[1].img} 
+                              alt={match.teams[1]}
+                              className="h-12 w-12 mx-auto object-contain mb-2"
+                            />
+                          ) : (
+                            <div className="h-12 w-12 mx-auto bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mb-2">
+                              <Trophy className="h-6 w-6 text-white" />
+                            </div>
+                          )}
+                          <p className="font-bold text-slate-900 text-sm mb-1">
+                            {match.teamInfo?.[1]?.shortname || match.teams[1]}
+                          </p>
+                          {match.score?.[1] && (
+                            <div className="text-2xl font-black text-orange-600">
+                              {match.score[1].r}/{match.score[1].w}
+                              <div className="text-xs text-slate-600">({match.score[1].o} ov)</div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Match Status */}
+                      {match.status_note && (
+                        <div className="mt-4 text-center">
+                          <p className="text-sm font-semibold text-slate-700 bg-yellow-50 rounded-lg px-4 py-2 border border-yellow-200">
+                            {match.status_note}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* View Details Button */}
+                      <div className="mt-4 text-center">
+                        <Button 
+                          className="bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white font-semibold shadow-lg"
+                          onClick={() => setLocation(`/matches/${match.id}`)}
+                        >
+                          View Full Scorecard
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
 

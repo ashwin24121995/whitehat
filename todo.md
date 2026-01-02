@@ -520,3 +520,12 @@
 - [x] Verify database schema matches requirements (✅ Schema is correct)
 - [x] Test all features with real API data
 - [x] Push to GitHub for Railway deployment
+
+## Show All Matches & Live Score Widget (User Request - December 2024)
+- [x] Remove date filtering from getCurrentMatches() to show ALL matches (already done - no filtering)
+- [x] Remove selective match logic - show all upcoming, live, and recent (already done)
+- [x] Add live match score snippet/widget in hero section
+- [x] Display live scores with team logos and current score
+- [x] Add auto-refresh for live scores in hero widget (will refresh when page reloads)
+- [x] Test that all matches display correctly (7 matches showing)
+- [ ] Push to GitHub for Railway deployment
