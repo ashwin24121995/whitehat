@@ -634,3 +634,15 @@
 - [x] Fix TypeScript module resolution by moving filter logic inline
 - [ ] Test matches page with all three tabs
 - [ ] Push to GitHub and save checkpoint
+
+
+## Fix Cricket API Filtering - 76 Upcoming Matches Not Showing (URGENT) - January 2, 2026
+- [x] Debug Cricket API response to see actual status values for upcoming matches
+- [x] Discovered that upcoming matches are spread across multiple series
+- [x] Implemented getAllSeries() and getSeriesMatches() functions
+- [x] Implemented getAllUpcomingMatches() to fetch from all series (gets 59+ matches)
+- [x] Updated matches.upcoming procedure to use getAllUpcomingMatches()
+- [x] Fixed filterLiveMatches logic (2 live matches displaying correctly)
+- [x] Test home page - VERIFIED: Upcoming matches section showing 6 matches
+- [x] Test home page - VERIFIED: Live matches section showing 1 live match
+- [ ] Push to GitHub and save checkpoint

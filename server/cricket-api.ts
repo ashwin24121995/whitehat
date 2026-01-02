@@ -91,6 +91,100 @@ export function formatISTDate(gmtDate: string): string {
 }
 
 /**
+ * Fetch all series from Cricket API
+ */
+export async function getAllSeries(): Promise<any[]> {
+  try {
+    const response = await axios.get<CricketAPIResponse<any[]>>(
+      `${CRICKET_API_BASE_URL}/series`,
+      {
+        params: { 
+          apikey: API_KEY,
+          offset: 0
+        },
+        timeout: 10000
+      }
+    );
+
+    if (response.data.status === "success" && response.data.data) {
+      return response.data.data;
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Error fetching series:", error);
+    return [];
+  }
+}
+
+/**
+ * Fetch matches for a specific series
+ */
+export async function getSeriesMatches(seriesId: string): Promise<Match[]> {
+  try {
+    const response = await axios.get<CricketAPIResponse<{ matchList: Match[] }>>(
+      `${CRICKET_API_BASE_URL}/series_info`,
+      {
+        params: { 
+          apikey: API_KEY,
+          id: seriesId 
+        },
+        timeout: 10000
+      }
+    );
+
+    if (response.data.status === "success" && response.data.data?.matchList) {
+      return response.data.data.matchList;
+    }
+
+    return [];
+  } catch (error) {
+    console.error(`Error fetching series ${seriesId} matches:`, error);
+    return [];
+  }
+}
+
+/**
+ * Fetch ALL upcoming matches from all series
+ * This is the correct way to get all 76+ upcoming matches
+ */
+export async function getAllUpcomingMatches(): Promise<Match[]> {
+  try {
+    // Step 1: Get all series
+    const series = await getAllSeries();
+    console.log(`Found ${series.length} series`);
+    
+    // Step 2: Fetch matches from each series in parallel (limit to first 50 series to avoid timeout)
+    const limitedSeries = series.slice(0, 50);
+    const matchPromises = limitedSeries.map(s => getSeriesMatches(s.id));
+    const seriesMatches = await Promise.all(matchPromises);
+    
+    // Step 3: Flatten and filter for upcoming matches only
+    const allMatches = seriesMatches.flat();
+    const now = new Date();
+    
+    const upcomingMatches = allMatches.filter(match => {
+      const notStarted = match.matchStarted === false;
+      const matchDate = new Date(match.dateTimeGMT);
+      const isFuture = matchDate >= now;
+      return notStarted && isFuture;
+    });
+    
+    console.log(`Found ${upcomingMatches.length} upcoming matches from ${limitedSeries.length} series`);
+    
+    // Step 4: Sort by date (earliest first)
+    upcomingMatches.sort((a, b) => {
+      return new Date(a.dateTimeGMT).getTime() - new Date(b.dateTimeGMT).getTime();
+    });
+    
+    return upcomingMatches;
+  } catch (error) {
+    console.error('Error fetching all upcoming matches:', error);
+    return [];
+  }
+}
+
+/**
  * Fetch current and upcoming matches
  */
 export async function getCurrentMatches(): Promise<Match[]> {

@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { 
-  getCurrentMatches, 
+  getCurrentMatches,
+  getAllUpcomingMatches,
   getMatchDetails, 
   getFantasySquad,
   getFantasyMatchPoints,
@@ -65,18 +66,8 @@ export const matchesRouter = router({
         return cached;
       }
 
-      // Fetch from API and filter for upcoming matches
-      const allMatches = await getCurrentMatches();
-      const now = new Date();
-      
-      // Filter upcoming matches: not started, status="Match not started", future date
-      const upcomingMatches = allMatches.filter(match => {
-        const notStarted = !match.matchStarted;
-        const statusCheck = match.status === "Match not started";
-        const matchDate = new Date(match.dateTimeGMT);
-        const isFuture = matchDate >= now;
-        return notStarted && statusCheck && isFuture;
-      }).sort((a, b) => new Date(a.dateTimeGMT).getTime() - new Date(b.dateTimeGMT).getTime());
+      // Fetch all upcoming matches from all series (this gets 76+ matches)
+      const upcomingMatches = await getAllUpcomingMatches();
       
       // Add additional computed fields
       const enrichedMatches = upcomingMatches.map((match: any) => ({
