@@ -618,3 +618,19 @@
 - [x] Add team composition validation (WK, BAT, AR, BOWL rules) - ALREADY EXISTS
 - [ ] Implement Captain & Vice-Captain selection (needs to be added to existing page)
 - [x] Add routes in App.tsx for new pages
+
+
+## Fix Upcoming Matches Display (Cricket API Filtering) - January 2, 2026
+- [x] Review current Cricket API implementation in server/cricket-api.ts
+- [x] Implement proper filtering for upcoming matches (status="Match not started", matchStarted=false, dateTimeGMT >= now)
+- [x] Implement proper filtering for live matches (matchStarted=true, matchEnded=false, status includes "live"/"in progress"/"innings")
+- [x] Implement proper filtering for completed matches (matchEnded=true)
+- [x] Add date sorting for upcoming matches (earliest first)
+- [x] Update tRPC procedures in server/matches.ts for matches.upcoming, matches.live, matches.completed
+- [x] Test upcoming matches section on home page (working - displays when matches available)
+- [x] Test live matches section on home page (working - displays when matches available)
+- [x] Test completed matches section on home page (working correctly)
+- [x] Update Home.tsx to use new filtering procedures
+- [x] Fix TypeScript module resolution by moving filter logic inline
+- [ ] Test matches page with all three tabs
+- [ ] Push to GitHub and save checkpoint

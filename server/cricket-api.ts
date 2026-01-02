@@ -215,6 +215,62 @@ export function getMatchStatus(match: Match): 'upcoming' | 'live' | 'completed' 
 }
 
 /**
+ * Filter upcoming matches from API response
+ * According to Cricket API guide: must check matchStarted=false, status="Match not started", and dateTimeGMT >= now
+ */
+export function filterUpcomingMatches(matches: Match[]): Match[] {
+  const now = new Date();
+  
+  return matches.filter(match => {
+    // Match must not have started
+    const notStarted = !match.matchStarted;
+    
+    // Match status should be "Match not started"
+    const statusCheck = match.status === "Match not started";
+    
+    // Match date should be today or in the future
+    const matchDate = new Date(match.dateTimeGMT);
+    const isFuture = matchDate >= now;
+    
+    return notStarted && statusCheck && isFuture;
+  }).sort((a, b) => {
+    // Sort by date (earliest first)
+    return new Date(a.dateTimeGMT).getTime() - new Date(b.dateTimeGMT).getTime();
+  });
+}
+
+/**
+ * Filter live matches from API response
+ * According to Cricket API guide: must check matchStarted=true, matchEnded=false, and status includes "live"/"in progress"/"innings"
+ */
+export function filterLiveMatches(matches: Match[]): Match[] {
+  return matches.filter(match => {
+    // Match must have started
+    const hasStarted = match.matchStarted === true;
+    
+    // Match must not have ended
+    const notEnded = match.matchEnded === false;
+    
+    // Status should indicate live play
+    const isLive = match.status && (
+      match.status.toLowerCase().includes("live") ||
+      match.status.toLowerCase().includes("in progress") ||
+      match.status.toLowerCase().includes("innings")
+    );
+    
+    return hasStarted && notEnded && isLive;
+  });
+}
+
+/**
+ * Filter completed matches from API response
+ * According to Cricket API guide: must check matchEnded=true
+ */
+export function filterCompletedMatches(matches: Match[]): Match[] {
+  return matches.filter(match => match.matchEnded === true);
+}
+
+/**
  * Check if match is available for team creation
  */
 export function isMatchAvailableForTeamCreation(match: Match): boolean {

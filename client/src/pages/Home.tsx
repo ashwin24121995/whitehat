@@ -16,16 +16,29 @@ import { useLanguage } from "@/contexts/LanguageContext";
 export default function Home() {
   const { t } = useLanguage();
   
-  // Fetch matches from Cricket API with auto-refresh for live matches
-  const { data: matchesResponse, isLoading: matchesLoading } = trpc.matches.list.useQuery(
+  // Fetch upcoming matches with proper filtering
+  const { data: upcomingResponse, isLoading: upcomingLoading } = trpc.matches.upcoming.useQuery(
     undefined,
     {
-      // Auto-refresh every 30 seconds if there are live matches
-      refetchInterval: (data) => {
-        const hasLiveMatches = data?.matches?.some(m => m.status === 'live');
-        return hasLiveMatches ? 30000 : false; // 30 seconds for live, no refresh for others
-      },
-      // Keep previous data while refetching to avoid flickering
+      refetchInterval: 5 * 60 * 1000, // Refresh every 5 minutes
+      refetchOnWindowFocus: false,
+    }
+  );
+  
+  // Fetch live matches with auto-refresh
+  const { data: liveResponse, isLoading: liveLoading } = trpc.matches.live.useQuery(
+    undefined,
+    {
+      refetchInterval: 30000, // Refresh every 30 seconds for live matches
+      refetchOnWindowFocus: false,
+    }
+  );
+  
+  // Fetch completed matches
+  const { data: completedResponse, isLoading: completedLoading } = trpc.matches.completed.useQuery(
+    undefined,
+    {
+      refetchInterval: 10 * 60 * 1000, // Refresh every 10 minutes
       refetchOnWindowFocus: false,
     }
   );
@@ -36,10 +49,11 @@ export default function Home() {
     matchId: undefined
   });
   
-  const allMatches = matchesResponse?.matches || [];
-  const liveMatches = allMatches.filter(m => m.matchType && m.status === "live") || [];
-  const upcomingMatches = allMatches.filter(m => m.matchType && m.status === "upcoming").slice(0, 6) || [];
-  const recentMatches = allMatches.filter(m => m.matchType && m.status === "completed").slice(0, 3) || [];
+  const upcomingMatches = upcomingResponse?.matches?.slice(0, 6) || [];
+  const liveMatches = liveResponse?.matches || [];
+  const recentMatches = completedResponse?.matches?.slice(0, 3) || [];
+  
+  const matchesLoading = upcomingLoading || liveLoading || completedLoading;
   
   // Real statistics from database (no fake data)
   const totalUsers = statsData?.leaderboard?.length || 0;
