@@ -560,3 +560,17 @@
 - [ ] Verify all sections load correctly with real API data
 - [ ] VERIFY: No mock data, no fake testimonials, no fake user counts
 - [x] Push to GitHub for Railway deployment (via checkpoint)
+
+## Remove Manus Features and Push to GitHub (User Request - January 2025)
+- [x] Identify all Manus-specific features in codebase
+- [x] Remove Manus OAuth authentication system (disabled OAuth callback route)
+- [x] Remove Manus-specific environment variables (commented out OAUTH_SERVER_URL, OWNER_OPEN_ID)
+- [x] Remove Manus OAuth login URL generation (replaced with /login redirect)
+- [x] Update authentication redirects to use /login page instead of Manus OAuth
+- [x] Clean up Manus references in comments and code
+- [x] Verify custom MySQL authentication is working (already implemented in server/auth.ts)
+- [x] Test application after removing Manus features (home page loads correctly)
+- [x] Configure GitHub authentication for push (already authenticated)
+- [x] Push all changes to GitHub repository (pushed to github/main)
+- [x] Verify Railway deployment compatibility (MySQL authentication working)
+- [ ] Save final checkpoint
