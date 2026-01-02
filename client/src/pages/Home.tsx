@@ -5,7 +5,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Zap, Target, CheckCircle2, Trophy, Users, TrendingUp, Shield, 
   Calendar, Clock, Heart, Sparkles, Award, Play, ArrowRight,
-  DollarSign, Lock, Smile, BookOpen
+  DollarSign, Lock, Smile, BookOpen, Star, BarChart3, Globe,
+  FileCheck, UserCheck, Building2
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -14,6 +15,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
   const { t } = useLanguage();
+  
   // Fetch matches from Cricket API with auto-refresh for live matches
   const { data: matchesResponse, isLoading: matchesLoading } = trpc.matches.list.useQuery(
     undefined,
@@ -28,9 +30,19 @@ export default function Home() {
     }
   );
   
+  // Fetch real user statistics from database
+  const { data: statsData } = trpc.leaderboard.global.useQuery({
+    period: 'all',
+    matchId: undefined
+  });
+  
   const allMatches = matchesResponse?.matches || [];
   const liveMatches = allMatches.filter(m => m.matchType && m.status === "live") || [];
   const upcomingMatches = allMatches.filter(m => m.matchType && m.status === "upcoming").slice(0, 6) || [];
+  const recentMatches = allMatches.filter(m => m.matchType && m.status === "completed").slice(0, 3) || [];
+  
+  // Real statistics from database (no fake data)
+  const totalUsers = statsData?.leaderboard?.length || 0;
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-blue-50/20 to-white">
@@ -44,7 +56,7 @@ export default function Home() {
         }}
       >
         {/* Light overlay for better text readability while showing background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-white/60 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/75"></div>
         <div className="container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
@@ -148,7 +160,7 @@ export default function Home() {
 
       {/* LIVE MATCHES SECTION */}
       {matchesLoading ? (
-        <section className="py-12 bg-red-50">
+        <section className="py-12 bg-gradient-to-br from-red-50 to-orange-50">
           <div className="container">
             <div className="flex items-center gap-3 mb-6">
               <Skeleton className="h-9 w-28 rounded-full" />
@@ -177,29 +189,29 @@ export default function Home() {
           </div>
         </section>
       ) : liveMatches.length > 0 ? (
-        <section className="py-12 bg-red-50">
+        <section className="py-12 bg-gradient-to-br from-red-50 to-orange-50">
           <div className="container">
             <div className="flex items-center gap-3 mb-6">
-              <div className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full">
+              <div className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full shadow-lg">
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                 <span className="font-bold text-sm uppercase">Live Now</span>
               </div>
-              <h2 className="text-2xl font-bold text-slate-900">{t.matches.liveMatches}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900">{t.matches.liveMatches}</h2>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {liveMatches.map((match) => (
-                <Card key={match.id} className="hover:shadow-lg transition-shadow border-2 border-red-200">
-                  <CardContent className="p-4">
+                <Card key={match.id} className="hover:shadow-xl transition-all hover:-translate-y-1 border-2 border-red-200 bg-white">
+                  <CardContent className="p-5">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-red-600 uppercase">{match.matchType}</span>
+                      <span className="text-xs font-semibold text-red-600 uppercase bg-red-100 px-2 py-1 rounded">{match.matchType}</span>
                       <div className="flex items-center gap-1">
                         <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></div>
                         <span className="text-xs font-bold text-red-600">LIVE</span>
                       </div>
                     </div>
-                    <h3 className="font-bold text-slate-900 mb-2">{match.name}</h3>
-                    <p className="text-sm text-slate-600 mb-3">{match.venue}</p>
+                    <h3 className="font-bold text-slate-900 mb-2 line-clamp-2">{match.name}</h3>
+                    <p className="text-sm text-slate-600 mb-3 line-clamp-1">{match.venue}</p>
                     
                     {/* Team Logos */}
                     {match.teamInfo && match.teamInfo.length >= 2 && (
@@ -232,6 +244,7 @@ export default function Home() {
                     
                     <Link href={`/create-team/${match.id}`}>
                       <Button className="w-full btn-brand">
+                        <Trophy className="mr-2 h-4 w-4" />
                         {t.matches.createTeam}
                       </Button>
                     </Link>
@@ -245,7 +258,7 @@ export default function Home() {
 
       {/* UPCOMING MATCHES SECTION */}
       {matchesLoading ? (
-        <section className="py-16">
+        <section className="py-16 bg-white">
           <div className="container">
             <div className="text-center mb-10">
               <Skeleton className="h-10 w-64 mx-auto mb-3" />
@@ -275,20 +288,23 @@ export default function Home() {
           </div>
         </section>
       ) : upcomingMatches.length > 0 ? (
-        <section className="py-16">
+        <section className="py-16 bg-white">
           <div className="container">
             <div className="text-center mb-10">
+              <div className="inline-block bg-teal-100 text-teal-600 px-4 py-2 rounded-full font-semibold text-sm mb-4">
+                UPCOMING MATCHES
+              </div>
               <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
-                Upcoming Matches
+                Choose Your Match
               </h2>
               <p className="text-lg text-slate-600">
-                Choose your match and build your winning team
+                Build your dream team and compete with players worldwide
               </p>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingMatches.map((match) => (
-                <Card key={match.id} className="hover:shadow-xl transition-all hover:-translate-y-1 border border-gray-200">
+                <Card key={match.id} className="hover:shadow-xl transition-all hover:-translate-y-1 border-2 border-gray-100 hover:border-teal-300 bg-white">
                   <CardContent className="p-5">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-xs font-semibold text-teal-600 uppercase bg-teal-50 px-2 py-1 rounded">
@@ -352,6 +368,7 @@ export default function Home() {
             <div className="text-center mt-8">
               <Link href="/matches">
                 <Button variant="outline" size="lg" className="border-2 border-teal-600 text-teal-600 hover:bg-teal-600 hover:text-white font-semibold">
+                  <ArrowRight className="mr-2 h-5 w-5" />
                   View All Matches
                 </Button>
               </Link>
@@ -360,38 +377,130 @@ export default function Home() {
         </section>
       ) : null}
 
-      {/* QUICK STATS BANNER */}
-      <section className="py-12 bg-gradient-to-r from-teal-600 to-blue-600">
-        <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
-            <div>
-              <Users className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">{t.joinUs.title}</div>
-              <div className="text-sm font-medium opacity-90">{t.joinUs.subtitle}</div>
+      {/* RECENT MATCHES SECTION */}
+      {recentMatches.length > 0 && (
+        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-50">
+          <div className="container">
+            <div className="text-center mb-10">
+              <div className="inline-block bg-slate-200 text-slate-700 px-4 py-2 rounded-full font-semibold text-sm mb-4">
+                RECENTLY COMPLETED
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
+                Recent Match Results
+              </h2>
+              <p className="text-lg text-slate-600">
+                Check out the latest completed matches and results
+              </p>
             </div>
-            <div>
-              <Trophy className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">{t.joinUs.daily}</div>
-              <div className="text-sm font-medium opacity-90">{t.joinUs.dailySubtitle}</div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {recentMatches.map((match) => (
+                <Card key={match.id} className="border-2 border-gray-200 bg-white hover:shadow-lg transition-shadow">
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-slate-600 uppercase bg-slate-100 px-2 py-1 rounded">
+                        {match.matchType}
+                      </span>
+                      <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded">COMPLETED</span>
+                    </div>
+                    
+                    <h3 className="font-bold text-slate-900 mb-2 line-clamp-2">{match.name}</h3>
+                    <p className="text-sm text-slate-600 mb-4 line-clamp-1">{match.venue}</p>
+                    
+                    {/* Team Logos */}
+                    {match.teamInfo && match.teamInfo.length >= 2 && (
+                      <div className="flex items-center justify-center gap-3 mb-4 py-2 bg-slate-50 rounded-lg">
+                        <div className="flex flex-col items-center gap-1">
+                          <img 
+                            src={match.teamInfo[0].img} 
+                            alt={match.teamInfo[0].shortname}
+                            className="h-12 w-12 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder-team.png';
+                            }}
+                          />
+                          <span className="text-xs font-semibold text-slate-700">{match.teamInfo[0].shortname}</span>
+                        </div>
+                        <span className="text-lg font-bold text-slate-400">VS</span>
+                        <div className="flex flex-col items-center gap-1">
+                          <img 
+                            src={match.teamInfo[1].img} 
+                            alt={match.teamInfo[1].shortname}
+                            className="h-12 w-12 object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = '/placeholder-team.png';
+                            }}
+                          />
+                          <span className="text-xs font-semibold text-slate-700">{match.teamInfo[1].shortname}</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <Link href={`/matches`}>
+                      <Button variant="outline" className="w-full border-2 border-slate-300 hover:border-slate-600">
+                        <BarChart3 className="mr-2 h-4 w-4" />
+                        View Details
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-            <div>
-              <TrendingUp className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">{t.joinUs.live}</div>
-              <div className="text-sm font-medium opacity-90">{t.joinUs.liveSubtitle}</div>
-            </div>
-            <div>
-              <Shield className="h-10 w-10 mx-auto mb-2 opacity-90" />
-              <div className="text-3xl font-black mb-1">{t.joinUs.secure}</div>
-              <div className="text-sm font-medium opacity-90">{t.joinUs.secureSubtitle}</div>
+            
+            <div className="text-center mt-8">
+              <Link href="/matches">
+                <Button variant="outline" size="lg" className="border-2 border-slate-600 text-slate-600 hover:bg-slate-600 hover:text-white font-semibold">
+                  View All Results
+                </Button>
+              </Link>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* FEATURES SECTION */}
-      <section className="py-16 bg-white">
-        <div className="container">
+      {/* PLATFORM STATISTICS - REAL DATA ONLY */}
+      {totalUsers > 0 && (
+        <section className="py-12 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600">
+          <div className="container">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-white">
+              <div>
+                <Users className="h-10 w-10 mx-auto mb-2 opacity-90" />
+                <div className="text-3xl font-black mb-1">{totalUsers}</div>
+                <div className="text-sm font-medium opacity-90">Active Players</div>
+              </div>
+              <div>
+                <Trophy className="h-10 w-10 mx-auto mb-2 opacity-90" />
+                <div className="text-3xl font-black mb-1">{allMatches.length}</div>
+                <div className="text-sm font-medium opacity-90">Available Matches</div>
+              </div>
+              <div>
+                <TrendingUp className="h-10 w-10 mx-auto mb-2 opacity-90" />
+                <div className="text-3xl font-black mb-1">{liveMatches.length}</div>
+                <div className="text-sm font-medium opacity-90">Live Matches Now</div>
+              </div>
+              <div>
+                <Shield className="h-10 w-10 mx-auto mb-2 opacity-90" />
+                <div className="text-3xl font-black mb-1">100%</div>
+                <div className="text-sm font-medium opacity-90">Free Forever</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FEATURES SECTION WITH BACKGROUND */}
+      <section 
+        className="py-20 bg-cover bg-center bg-no-repeat relative"
+        style={{
+          backgroundImage: 'url(/features-bg.png)',
+        }}
+      >
+        <div className="absolute inset-0 bg-white/90"></div>
+        <div className="container relative z-10">
           <div className="text-center mb-12">
+            <div className="inline-block bg-teal-100 text-teal-600 px-4 py-2 rounded-full font-semibold text-sm mb-4">
+              WHY CHOOSE US
+            </div>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
               {t.features.title}
             </h2>
@@ -402,10 +511,10 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <Card className="border-2 border-teal-100 hover:border-teal-600 transition-all hover:shadow-xl">
+            <Card className="border-2 border-teal-100 hover:border-teal-600 transition-all hover:shadow-xl bg-white/95 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
-                  <DollarSign className="h-7 w-7 text-teal-600" />
+                <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <DollarSign className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.freeToPlay.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
@@ -415,10 +524,10 @@ export default function Home() {
             </Card>
 
             {/* Feature 2 */}
-            <Card className="border-2 border-blue-100 hover:border-blue-600 transition-all hover:shadow-xl">
+            <Card className="border-2 border-blue-100 hover:border-blue-600 transition-all hover:shadow-xl bg-white/95 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-                  <BookOpen className="h-7 w-7 text-blue-600" />
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <BookOpen className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.learnImprove.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
@@ -428,10 +537,10 @@ export default function Home() {
             </Card>
 
             {/* Feature 3 */}
-            <Card className="border-2 border-purple-100 hover:border-purple-600 transition-all hover:shadow-xl">
+            <Card className="border-2 border-purple-100 hover:border-purple-600 transition-all hover:shadow-xl bg-white/95 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-                  <TrendingUp className="h-7 w-7 text-purple-600" />
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <TrendingUp className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.realTimeUpdates.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
@@ -441,10 +550,10 @@ export default function Home() {
             </Card>
 
             {/* Feature 4 */}
-            <Card className="border-2 border-orange-100 hover:border-orange-600 transition-all hover:shadow-xl">
+            <Card className="border-2 border-orange-100 hover:border-orange-600 transition-all hover:shadow-xl bg-white/95 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-                  <Trophy className="h-7 w-7 text-orange-600" />
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Trophy className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.compete.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
@@ -454,10 +563,10 @@ export default function Home() {
             </Card>
 
             {/* Feature 5 */}
-            <Card className="border-2 border-green-100 hover:border-green-600 transition-all hover:shadow-xl">
+            <Card className="border-2 border-green-100 hover:border-green-600 transition-all hover:shadow-xl bg-white/95 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-                  <Shield className="h-7 w-7 text-green-600" />
+                <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Shield className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.safeSec.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
@@ -467,10 +576,10 @@ export default function Home() {
             </Card>
 
             {/* Feature 6 */}
-            <Card className="border-2 border-pink-100 hover:border-pink-600 transition-all hover:shadow-xl">
+            <Card className="border-2 border-pink-100 hover:border-pink-600 transition-all hover:shadow-xl bg-white/95 backdrop-blur-sm">
               <CardContent className="p-6">
-                <div className="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
-                  <Smile className="h-7 w-7 text-pink-600" />
+                <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 shadow-lg">
+                  <Smile className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{t.features.entertainment.title}</h3>
                 <p className="text-slate-600 leading-relaxed">
@@ -482,10 +591,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* HOW IT WORKS SECTION */}
-      <section className="py-16 bg-gradient-to-br from-blue-50 to-teal-50">
-        <div className="container">
+      {/* HOW IT WORKS SECTION WITH IMAGES */}
+      <section 
+        className="py-20 bg-cover bg-center bg-no-repeat relative"
+        style={{
+          backgroundImage: 'url(/how-it-works-bg.png)',
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/95 to-teal-50/95"></div>
+        <div className="container relative z-10">
           <div className="text-center mb-12">
+            <div className="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full font-semibold text-sm mb-4">
+              SIMPLE PROCESS
+            </div>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
               {t.howItWorks.title}
             </h2>
@@ -494,11 +612,11 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
             {/* Step 1 */}
             <div className="relative">
-              <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-teal-100 hover:border-teal-600 transition-all">
-                <div className="w-16 h-16 bg-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto">
+              <div className="bg-white rounded-2xl p-8 shadow-xl border-2 border-teal-100 hover:border-teal-600 transition-all">
+                <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto shadow-lg">
                   1
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">{t.howItWorks.step1Title}</h3>
@@ -507,15 +625,15 @@ export default function Home() {
                 </p>
               </div>
               {/* Arrow for desktop */}
-              <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+              <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
                 <ArrowRight className="h-8 w-8 text-teal-600" />
               </div>
             </div>
 
             {/* Step 2 */}
             <div className="relative">
-              <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-blue-100 hover:border-blue-600 transition-all">
-                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto">
+              <div className="bg-white rounded-2xl p-8 shadow-xl border-2 border-blue-100 hover:border-blue-600 transition-all">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto shadow-lg">
                   2
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">{t.howItWorks.step2Title}</h3>
@@ -524,15 +642,15 @@ export default function Home() {
                 </p>
               </div>
               {/* Arrow for desktop */}
-              <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
+              <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
                 <ArrowRight className="h-8 w-8 text-blue-600" />
               </div>
             </div>
 
             {/* Step 3 */}
             <div>
-              <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-purple-100 hover:border-purple-600 transition-all">
-                <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto">
+              <div className="bg-white rounded-2xl p-8 shadow-xl border-2 border-purple-100 hover:border-purple-600 transition-all">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 mx-auto shadow-lg">
                   3
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-3 text-center">{t.howItWorks.step3Title}</h3>
@@ -543,9 +661,43 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-center mt-10">
+          {/* Visual Guide with Real Images */}
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
+            <div className="relative group">
+              <img 
+                src="/player-batting.jpg" 
+                alt="Cricket Player" 
+                className="rounded-xl shadow-lg w-full h-48 object-cover border-4 border-white group-hover:scale-105 transition-transform"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl flex items-end p-4">
+                <p className="text-white font-bold text-sm">Select Your Players</p>
+              </div>
+            </div>
+            <div className="relative group">
+              <img 
+                src="/stadium-night.jpg" 
+                alt="Cricket Stadium" 
+                className="rounded-xl shadow-lg w-full h-48 object-cover border-4 border-white group-hover:scale-105 transition-transform"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl flex items-end p-4">
+                <p className="text-white font-bold text-sm">Watch Live Matches</p>
+              </div>
+            </div>
+            <div className="relative group">
+              <img 
+                src="/team-celebration.jpg" 
+                alt="Team Celebration" 
+                className="rounded-xl shadow-lg w-full h-48 object-cover border-4 border-white group-hover:scale-105 transition-transform"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl flex items-end p-4">
+                <p className="text-white font-bold text-sm">Climb the Leaderboard</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
             <Link href="/register">
-              <Button size="lg" className="btn-brand text-lg px-10 py-6">
+              <Button size="lg" className="btn-brand text-lg px-10 py-6 shadow-xl">
                 <Play className="mr-2 h-5 w-5" />
                 Start Playing Now
               </Button>
@@ -554,8 +706,110 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHY WE'RE 100% FREE SECTION */}
+      {/* TRUST & SECURITY SECTION */}
       <section className="py-16 bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <div className="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-full font-semibold text-sm mb-4">
+              SAFE & LEGAL
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
+              Trusted & Compliant Platform
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Your security and legal compliance are our top priorities
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {/* Trust Badge 1 */}
+            <Card className="border-2 border-green-100 hover:border-green-600 transition-all text-center bg-gradient-to-br from-green-50 to-white">
+              <CardContent className="p-6">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <Shield className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">100% Secure</h3>
+                <p className="text-sm text-slate-600">
+                  Your data is encrypted and protected with industry-standard security
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Trust Badge 2 */}
+            <Card className="border-2 border-blue-100 hover:border-blue-600 transition-all text-center bg-gradient-to-br from-blue-50 to-white">
+              <CardContent className="p-6">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <FileCheck className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Legally Compliant</h3>
+                <p className="text-sm text-slate-600">
+                  Registered company following all Indian regulations and guidelines
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Trust Badge 3 */}
+            <Card className="border-2 border-purple-100 hover:border-purple-600 transition-all text-center bg-gradient-to-br from-purple-50 to-white">
+              <CardContent className="p-6">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <UserCheck className="h-8 w-8 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Age Verified</h3>
+                <p className="text-sm text-slate-600">
+                  Strict 18+ age verification to ensure responsible participation
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Trust Badge 4 */}
+            <Card className="border-2 border-orange-100 hover:border-orange-600 transition-all text-center bg-gradient-to-br from-orange-50 to-white">
+              <CardContent className="p-6">
+                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                  <Building2 className="h-8 w-8 text-orange-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Registered Company</h3>
+                <p className="text-sm text-slate-600">
+                  WHITEHAT INFOTECH PVT LTD - CIN: U72300UP2015PTC073049
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Company Info */}
+          <div className="mt-12 max-w-4xl mx-auto">
+            <Card className="border-2 border-slate-200 bg-gradient-to-br from-slate-50 to-white">
+              <CardContent className="p-8">
+                <div className="text-center">
+                  <Globe className="h-12 w-12 text-teal-600 mx-auto mb-4" />
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">WHITEHAT INFOTECH PRIVATE LIMITED</h3>
+                  <p className="text-slate-600 mb-4">
+                    A registered Indian company committed to providing free, educational fantasy cricket experiences
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-4 text-left">
+                    <div className="flex items-start gap-3">
+                      <FileCheck className="h-5 w-5 text-teal-600 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold text-slate-900">CIN Number</p>
+                        <p className="text-sm text-slate-600 font-mono">U72300UP2015PTC073049</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Building2 className="h-5 w-5 text-teal-600 mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="font-semibold text-slate-900">Registered Office</p>
+                        <p className="text-sm text-slate-600">308, BAKHTAVAR STREET, HATHRAS - 204101, UP, INDIA</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY WE'RE 100% FREE SECTION */}
+      <section className="py-16 bg-gradient-to-br from-teal-50 to-blue-50">
         <div className="container">
           <div className="text-center mb-12">
             <div className="inline-block bg-teal-100 text-teal-600 px-4 py-2 rounded-full font-semibold text-sm mb-4">
@@ -567,17 +821,14 @@ export default function Home() {
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
               {t.whyFree.subtitle}
             </p>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto d-none">
-              We believe fantasy cricket should be accessible to everyone. Our investors share our vision of fantasy education without financial barriers.
-            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Reason 1 */}
-            <Card className="border-2 border-teal-100 bg-gradient-to-br from-teal-50 to-white">
+            <Card className="border-2 border-teal-100 bg-gradient-to-br from-teal-50 to-white hover:shadow-xl transition-all">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-teal-600 text-white rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <Heart className="h-6 w-6" />
                   </div>
                   <div>
@@ -591,10 +842,10 @@ export default function Home() {
             </Card>
 
             {/* Reason 2 */}
-            <Card className="border-2 border-blue-100 bg-gradient-to-br from-blue-50 to-white">
+            <Card className="border-2 border-blue-100 bg-gradient-to-br from-blue-50 to-white hover:shadow-xl transition-all">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-600 text-white rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <Lock className="h-6 w-6" />
                   </div>
                   <div>
@@ -608,10 +859,10 @@ export default function Home() {
             </Card>
 
             {/* Reason 3 */}
-            <Card className="border-2 border-purple-100 bg-gradient-to-br from-purple-50 to-white">
+            <Card className="border-2 border-purple-100 bg-gradient-to-br from-purple-50 to-white hover:shadow-xl transition-all">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-purple-600 text-white rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <Sparkles className="h-6 w-6" />
                   </div>
                   <div>
@@ -625,10 +876,10 @@ export default function Home() {
             </Card>
 
             {/* Reason 4 */}
-            <Card className="border-2 border-orange-100 bg-gradient-to-br from-orange-50 to-white">
+            <Card className="border-2 border-orange-100 bg-gradient-to-br from-orange-50 to-white hover:shadow-xl transition-all">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-orange-600 text-white rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
                     <Award className="h-6 w-6" />
                   </div>
                   <div>
@@ -645,22 +896,24 @@ export default function Home() {
       </section>
 
       {/* FINAL CTA SECTION */}
-      <section className="py-20 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 text-white">
-        <div className="container">
+      <section className="py-20 bg-gradient-to-r from-teal-600 via-blue-600 to-purple-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
+        </div>
+        <div className="container relative z-10">
           <div className="max-w-3xl mx-auto text-center">
+            <Star className="h-16 w-16 mx-auto mb-6 animate-pulse" />
             <h2 className="text-3xl md:text-5xl font-black mb-4">
               {t.cta.readyTitle}
             </h2>
             <p className="text-xl md:text-2xl mb-8 opacity-95">
               {t.cta.readySubtitle}
             </p>
-            <p className="text-xl md:text-2xl mb-8 opacity-95 d-none">
-              Start enjoying free fantasy cricket today. No payment, no risk, just pure fun!
-            </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/register">
-                <Button size="lg" className="bg-white text-teal-600 hover:bg-gray-100 text-lg px-10 py-6 font-bold">
+                <Button size="lg" className="bg-white text-teal-600 hover:bg-gray-100 text-lg px-10 py-6 font-bold shadow-xl">
                   <Zap className="mr-2 h-5 w-5" />
                   Register Now - It's Free!
                 </Button>
@@ -673,7 +926,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="mt-10 flex items-center justify-center gap-8 text-sm opacity-90">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm opacity-90">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-5 w-5" />
                 <span>{t.cta.noCreditCard}</span>
