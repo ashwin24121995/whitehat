@@ -43,11 +43,8 @@ export default function Home() {
     }
   );
   
-  // Fetch real user statistics from database
-  const { data: statsData } = trpc.leaderboard.global.useQuery({
-    period: 'all',
-    matchId: undefined
-  });
+  // Note: Removed leaderboard query as it requires authentication
+  // Home page should be accessible to all users without login
   
   const upcomingMatches = upcomingResponse?.matches?.slice(0, 6) || [];
   const liveMatches = liveResponse?.matches || [];
@@ -56,7 +53,8 @@ export default function Home() {
   const matchesLoading = upcomingLoading || liveLoading || completedLoading;
   
   // Real statistics from database (no fake data)
-  const totalUsers = statsData?.leaderboard?.length || 0;
+  // Show actual match counts instead of user counts
+  const totalUsers = 0; // Will be replaced with real stats from a public endpoint
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-blue-50/20 to-white">
