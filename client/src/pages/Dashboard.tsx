@@ -13,8 +13,12 @@ export default function Dashboard() {
   const [, setLocation] = useLocation();
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   
-  // Note: Removed auto-redirect - Dashboard should not force redirect
-  // The page will show loading state if not authenticated
+  // Redirect to login if not authenticated (this is a protected page)
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      setLocation("/login");
+    }
+  }, [authLoading, isAuthenticated, setLocation]);
 
   // Fetch user's teams
   const { data: teamsData, isLoading: teamsLoading } = trpc.teams.myTeams.useQuery(

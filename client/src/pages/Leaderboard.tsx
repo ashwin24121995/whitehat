@@ -19,8 +19,12 @@ export default function Leaderboard() {
   const [timePeriod, setTimePeriod] = useState<'all' | 'week' | 'month'>('all');
   const [selectedMatch, setSelectedMatch] = useState<string>('all');
 
-  // Note: Removed auto-redirect - Leaderboard should not force redirect
-  // The page will show loading state if not authenticated
+  // Redirect to login if not authenticated (this is a protected page)
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      setLocation("/login");
+    }
+  }, [authLoading, isAuthenticated, setLocation]);
 
   // Fetch matches for filter dropdown
   const { data: matchesData } = trpc.matches.list.useQuery(undefined, { enabled: isAuthenticated });

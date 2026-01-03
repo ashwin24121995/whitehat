@@ -31,8 +31,13 @@ export default function CreateTeam() {
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("all");
 
-  // Note: Removed auto-redirect - CreateTeam should not force redirect
-  // The page will show loading state if not authenticated
+  // Redirect to login if not authenticated (this is a protected page)
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      toast.info("Please login to create a team");
+      setLocation("/login");
+    }
+  }, [authLoading, isAuthenticated, setLocation]);
 
   // Fetch match details
   const { data: matchData, isLoading: matchLoading } = trpc.matches.getById.useQuery(
