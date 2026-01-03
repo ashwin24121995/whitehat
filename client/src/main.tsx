@@ -13,6 +13,7 @@ const queryClient = new QueryClient();
 
 // Log errors but don't auto-redirect to login
 // This allows users to browse public pages without forced authentication
+// Deployment trigger: 2026-01-03
 queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
