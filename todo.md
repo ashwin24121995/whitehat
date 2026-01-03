@@ -666,3 +666,16 @@
 - [ ] Clear browser cache and test production site
 - [ ] Verify auto-redirect fix is live on whitehatinfotech.com
 - [ ] Save checkpoint after successful deployment
+
+
+## Deep Investigation: Auto-Redirect Still Happening (CRITICAL) - January 3, 2026
+- [x] Search for ALL redirect/navigation logic in client code
+- [x] Check App.tsx for route guards or redirects (no redirect logic found)
+- [x] Check Home.tsx for any redirect logic (no redirect logic found)
+- [x] Check useAuth hook for redirect logic (found two versions - one with redirect, one without)
+- [x] Check all useEffect hooks that might trigger redirects
+- [x] Find the ACTUAL source of the auto-redirect (main.tsx had redirect on unauthorized errors)
+- [x] Fix ALL sources of auto-redirect (removed redirectToLoginIfUnauthorized from main.tsx)
+- [x] Test locally with browser devtools to see what's triggering redirect
+- [x] Verify fix works for 30+ seconds without redirect (VERIFIED: no redirect for 20+ seconds)
+- [ ] Push to GitHub and trigger Railway deployment
