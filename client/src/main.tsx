@@ -11,30 +11,25 @@ import "./index.css";
 
 const queryClient = new QueryClient();
 
-const redirectToLoginIfUnauthorized = (error: unknown) => {
-  if (!(error instanceof TRPCClientError)) return;
-  if (typeof window === "undefined") return;
-
-  const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
-
-  if (!isUnauthorized) return;
-
-  window.location.href = "/login";
-};
-
+// Log errors but don't auto-redirect to login
+// This allows users to browse public pages without forced authentication
 queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
-    redirectToLoginIfUnauthorized(error);
-    console.error("[API Query Error]", error);
+    // Only log errors, don't redirect
+    if (error instanceof TRPCClientError && error.message !== UNAUTHED_ERR_MSG) {
+      console.error("[API Query Error]", error);
+    }
   }
 });
 
 queryClient.getMutationCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.mutation.state.error;
-    redirectToLoginIfUnauthorized(error);
-    console.error("[API Mutation Error]", error);
+    // Only log errors, don't redirect
+    if (error instanceof TRPCClientError && error.message !== UNAUTHED_ERR_MSG) {
+      console.error("[API Mutation Error]", error);
+    }
   }
 });
 

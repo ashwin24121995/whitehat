@@ -646,3 +646,13 @@
 - [x] Test home page - VERIFIED: Upcoming matches section showing 6 matches
 - [x] Test home page - VERIFIED: Live matches section showing 1 live match
 - [x] Push to GitHub and save checkpoint (version: e7ac1359)
+
+
+## Fix Auto-Redirect to Login Page (URGENT) - January 2, 2026
+- [x] Identify code causing automatic redirect to login page after few seconds (found in main.tsx)
+- [x] Remove or disable auto-redirect logic on home page (removed redirectToLoginIfUnauthorized function)
+- [x] Ensure users can browse home page, matches, and public pages without forced login
+- [x] Keep login requirement only for protected actions (Create Team, Dashboard, etc.)
+- [x] Test home page - verify no auto-redirect happens (VERIFIED: page stays on home for 10+ seconds)
+- [ ] Test production website at whitehatinfotech.com (after deployment)
+- [ ] Push to GitHub and save checkpoint
