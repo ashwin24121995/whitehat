@@ -678,4 +678,17 @@
 - [x] Fix ALL sources of auto-redirect (removed redirectToLoginIfUnauthorized from main.tsx)
 - [x] Test locally with browser devtools to see what's triggering redirect
 - [x] Verify fix works for 30+ seconds without redirect (VERIFIED: no redirect for 20+ seconds)
-- [ ] Push to GitHub and trigger Railway deployment
+- [x] Push to GitHub and trigger Railway deployment (version: b2384cad pushed successfully)
+
+
+## Fix Match Detail Page Issues - January 3, 2026
+- [x] Test match detail page on production (whitehatinfotech.com)
+- [x] Identify what issues occur when viewing match details
+  * Issue: Page shows only skeleton loaders, no data loads
+  * Console errors: 401 Unauthorized + HTTP/2 protocol error
+  * Root cause: matches.getById procedure missing or using wrong auth
+- [x] Check if matches.getById procedure exists in server/matches.ts (EXISTS, using publicProcedure)
+- [x] Fix MatchDetail page to correctly access match data from API response
+- [x] Add proper error handling to show error messages to users
+- [x] Test locally to verify fixes work (VERIFIED: Match detail page displays correctly)
+- [ ] Push to GitHub and save checkpoint

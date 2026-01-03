@@ -9,10 +9,12 @@ export default function MatchDetail() {
   const { matchId } = useParams<{ matchId: string }>();
   const [, setLocation] = useLocation();
 
-  const { data: match, isLoading } = trpc.matches.getById.useQuery(
+  const { data, isLoading, error } = trpc.matches.getById.useQuery(
     { matchId: matchId! },
     { enabled: !!matchId }
   );
+
+  const match = data?.match;
 
   if (isLoading) {
     return (
@@ -29,7 +31,7 @@ export default function MatchDetail() {
     );
   }
 
-  if (!match) {
+  if (!isLoading && !match) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="container py-8">
@@ -37,7 +39,7 @@ export default function MatchDetail() {
             <Trophy className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
             <h2 className="text-2xl font-bold mb-2">Match Not Found</h2>
             <p className="text-muted-foreground mb-6">
-              The match you're looking for doesn't exist or has been removed.
+              {error ? `Error: ${error.message}` : "The match you're looking for doesn't exist or has been removed."}
             </p>
             <Button onClick={() => setLocation("/matches")}>
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -47,6 +49,10 @@ export default function MatchDetail() {
         </div>
       </div>
     );
+  }
+
+  if (!match) {
+    return null; // Still loading
   }
 
   const isLive = match.status === "live";
